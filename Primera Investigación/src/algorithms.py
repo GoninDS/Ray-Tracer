@@ -29,6 +29,7 @@ def bresenham_line():
   turtle.done()
 
 # ----------------- Algoritmo de circulo -----------------
+# Generado por medio de ChatGPT y editado posteriormente
 def draw_circle(xc, yc, x, y):
 	turtle.penup()
 	turtle.goto(xc + x, yc + y)
@@ -79,3 +80,11 @@ def bresenham_circle():
 		else:
 			d = d + 4 * x + 6
 		draw_circle(xc, yc, x, y)
+		
+# ----------------- Algoritmo en base de ángulos -----------------
+# Tomado y modificado de GeeksforGeeks
+def angle_algorithm(sides, angle):
+  for i in range(sides):
+    turtle.forward(100)
+    turtle.right(angle)
+  turtle.done()

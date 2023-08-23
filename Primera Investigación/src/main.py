@@ -18,15 +18,15 @@ def handle_cases(value):
   elif value == 2:
     alg.bresenham_circle()
   elif value == 3:
-      pass
+    alg.angle_algorithm(3, 120)
   elif value == 4:
-    pass
+    alg.angle_algorithm(4, 90)
   elif value == 5:
-    pass
+    alg.angle_algorithm(6, 60)
   elif value == 6:
-    pass
+    alg.angle_algorithm(8, 45)
   elif value == 7:
-    pass
+    alg.angle_algorithm(5, 144)
 
 # Set for the loop
 input_value = 1
