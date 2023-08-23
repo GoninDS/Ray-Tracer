@@ -35,7 +35,11 @@ while input_value > 0 and input_value < 8:
   menu_instructions()
   try:
     input_value = int(input())
-    handle_cases(input_value)
+    try:
+      handle_cases(input_value)
+    except:
+      # Used to quick fix a bug
+      handle_cases(input_value)
   except:
     print("\nPor favor inserte un valor valido")
     input_value = 1
