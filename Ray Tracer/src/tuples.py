@@ -89,6 +89,12 @@ class Tuple:
     # TODO(us): Ask if cross product always results in vectors
     return new_tuple
 
+  # Magnitude of a tuple  
+  def magnitude(self):
+    magnitude = self.x ** 2 + self.y ** 2 + self.z ** 2 + self.w ** 2
+    magnitude = math.sqrt(magnitude)
+    return magnitude
+
   # TODO(us): consider if static
   # @sclassmethod
   # @staticmethod
@@ -96,12 +102,6 @@ class Tuple:
   def normalize(self):
     magnitude = self.magnitude()
     self /= magnitude
-
-  # Magnitude of a tuple  
-  def magnitude(self):
-    magnitude = self.x ** 2 + self.y ** 2 + self.z ** 2 + self.w ** 2
-    magnitude = math.sqrt(magnitude)
-    return magnitude
 
   # Returns if the tuple is a vector
   # TODO(us): Ask if it is equal or less than zero
