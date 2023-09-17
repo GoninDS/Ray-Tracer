@@ -1,3 +1,5 @@
+# Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
+
 class Color:
   # Default constructor
   # TODO(Kenneth): Ask Luis about the name of this attributes
