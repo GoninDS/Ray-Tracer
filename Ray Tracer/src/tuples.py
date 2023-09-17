@@ -9,12 +9,14 @@ class Tuple:
     self.w = w
 
   # Set as vector
-  # TODO(us): Ask ...
+  # TODO(Luis & Kenneth): Ask teacher if this constructor should be
+  # declared this way
   def vector(self, x, y, z):
     self.__init__(x, y, z, 0)
-    pass
  
-   # TODO(us): Ask ...
+  # Set as point
+  # TODO(Luis & Kenneth): Ask teacher if this constructor should be
+  # declared this way
   def point(self, x ,y, z):
     self.__init__(x, y, z, 1)
 
@@ -26,7 +28,7 @@ class Tuple:
   def __str__(self): 
     return '({}, {}, {}, {})'.format(self.x, self.y, self.z, self.w)
   
-  # Adds two tuples
+  # Addition of two tuples
   def __add__(self, other):
     new_tuple = Tuple(0, 0, 0, 0)
     new_tuple.x = self.x + other.x
@@ -38,7 +40,7 @@ class Tuple:
     # Return the result
     return new_tuple
 
-  # Subtracts two tuples
+  # Subtraction of two tuples
   def __sub__(self, other):
     new_tuple = Tuple(0, 0, 0, 0)
     new_tuple.x = self.x - other.x
@@ -50,12 +52,12 @@ class Tuple:
     # Return the result
     return new_tuple
 
-  # Negation of a tuples#
+  # Negation of a tuple
   def __neg__(self):
     self.x = -self.x
     self.y = -self.y
     self.z = -self.z
-    # TODO(us): Ask if this happens
+    # TODO(Luis & Kenneth): Ask if this happens
     # self.w = -self.w
 
   # Scalar multiplication
@@ -86,7 +88,7 @@ class Tuple:
     new_tuple.x = self.y * other.z - self.z * other.y
     new_tuple.y = self.z * other.x - self.x * self.z
     new_tuple.z = self.x * other.y - self.y * other.z
-    # TODO(us): Ask if cross product always results in vectors
+    # TODO(Luis & Kenneth): Ask if cross product always results in vectors
     return new_tuple
 
   # Magnitude of a tuple  
@@ -95,8 +97,8 @@ class Tuple:
     magnitude = math.sqrt(magnitude)
     return magnitude
 
-  # TODO(us): consider if static
-  # @sclassmethod
+  # TODO(Luis & Kenneth): consider if static
+  # @classmethod
   # @staticmethod
   # Normalization of a tuple
   def normalize(self):
@@ -104,11 +106,11 @@ class Tuple:
     self /= magnitude
 
   # Returns if the tuple is a vector
-  # TODO(us): Ask if it is equal or less than zero
+  # TODO(Luis & Kenneth): Ask if it is equal or less than zero
   def is_vector(self):
     return self.w <= 0
   
   # Return if the tuple is a point
-  # TODO(us): Ask if it is equal or greater than zero
+  # TODO(Luis & Kenneth): Ask if it is equal or greater than zero
   def is_point(self):
     return self.w >= 1

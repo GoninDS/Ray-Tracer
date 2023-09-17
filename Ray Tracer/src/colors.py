@@ -24,7 +24,7 @@ class Color:
   def __str__(self): 
     return '({}, {}, {})'.format(self.r, self.g, self.b)
   
-  # Adds two colors
+  # Addition of two colors
   def __add__(self, other):
     new_color = Color(0, 0, 0)
     new_color.r = self.r + other.r
@@ -33,7 +33,7 @@ class Color:
     # Return the result
     return new_color
 
-  # Subtracts two color
+  # Subtraction of two colors
   def __sub__(self, other):
     new_color = Color(0, 0, 0)
     new_color.r = self.r - other.r
