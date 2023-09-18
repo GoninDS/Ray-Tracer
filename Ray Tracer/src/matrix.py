@@ -1,7 +1,6 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-# TODO(Kenneth): Help i dont remember how to include in python
-import Tuple
+from tuples import Tuple
 
 class Matrix:
   # Default constructor
@@ -183,9 +182,25 @@ class Matrix:
     return transpose
 
   # Returns the inverse of the matrix
-  # TODO(Luis): Implement this
+  # TODO(Luis): Test this
   def inverse(self):
-    pass
+    if self.is_invertible():
+      # TODO(Luis): Ask if we should avoid these variables
+      rows = len(self.mat)
+      columns = len(self.mat[0])
+      # Create an empty new matrix
+      new_matrix = Matrix(rows, columns)
+      # Calculate the determinant of the original matrix
+      determinant = self.determinant()
+      for row in rows:
+        for column in columns:
+          # Calculate the cofactor of that row and column
+          cofactor = self.cofactor(row, column)
+          # Calculate the new value in the position [column][row]
+          new_matrix.mat[column][row] = cofactor / determinant
+      return new_matrix
+    # The matrix can not be inverted
+    return Matrix.invalid()
 
   # Returns if the two matrixes have compatible dimensions for multiplication
   # Both matrixes must be valid
