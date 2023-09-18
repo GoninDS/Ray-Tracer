@@ -135,9 +135,26 @@ class Matrix:
     return new_matrix
 
   # Returns the determinant of the matrix
-  # TODO(Luis): Implement this
+  # TODO(Luis): Ask Kenneth: The matrix must be valid and squared
+  # TODO(Luis): Test this
   def determinant(self):
-    pass
+    rows = len(self.mat)
+    columns = len(self.mat[0])
+    # Base case (2x2 matrix)
+    if rows == 2 and columns == 2:
+      # Calculate the determinant with ad - bc
+      return self.mat[0][0] * self.mat[1][1] - self.mat[0][1] * self.mat[1][0]
+    # Recursive case
+    else:
+      # Iterate through the rows and columns of the matrix obtaining the
+      # submatrixes to calculate the determinant
+      column = 0
+      answer = 0
+      for row in rows:
+        # Used to determine the sign of the current value
+        value = (-1) ** (row + column) * self.mat[row][column]
+        # Calculate the determinant of the submatrix
+        answer += value * self.submatrix(row, column).determinant()
 
   # Returns the determinant of a submatrix (minor)
   def minor(self, row, column):
@@ -150,9 +167,8 @@ class Matrix:
     return -self.submatrix(row, column).determinant()
 
   # Returns the identity matrix
-   # TODO(Kenneth): Ask Luis if we should include validity in this
   def identity(self):
-    # If the matrix is not valid or is not square
+    # If the matrix is not valid or it is not squared
     if not self.is_valid() or not self.is_square():
       return Matrix.invalid()
     # Create a new matrix with 0´s
@@ -184,8 +200,7 @@ class Matrix:
   # Returns the inverse of the matrix
   # TODO(Luis): Test this
   def inverse(self):
-    if self.is_invertible():
-      # TODO(Luis): Ask if we should avoid these variables
+    if self.is_valid() and self.is_invertible():
       rows = len(self.mat)
       columns = len(self.mat[0])
       # Create an empty new matrix
@@ -199,25 +214,22 @@ class Matrix:
           # Calculate the new value in the position [column][row]
           new_matrix.mat[column][row] = cofactor / determinant
       return new_matrix
-    # The matrix can not be inverted
+    # The matrix is invalid or can not be inverted
     return Matrix.invalid()
 
   # Returns if the two matrixes have compatible dimensions for multiplication
   # Both matrixes must be valid
-  # TODO(Kenneth): Ask Luis if we should keep this method
   def have_compatible_dimensions(self, other):
     return len(self.mat) == len(other.mat[0]) \
       and len(self.mat[0]) == len(other.mat)
 
   # Returns if the matrix is valid
-  # TODO(Kenneth): Ask Luis if we should keep this method
   def is_valid(self):
     return len(self.mat) != 0 \
       and len(self.mat[0]) != 0
   
   # Returns if the matrix is square
   # The matrix must be valid
-  # TODO(Kenneth): Ask Luis if we should keep this method
   def is_square(self):
     return len(self.mat) == len(self.mat[0])
 
