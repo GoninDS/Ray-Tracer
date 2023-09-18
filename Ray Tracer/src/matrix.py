@@ -140,8 +140,11 @@ class Matrix:
   def determinant(self):
     rows = len(self.mat)
     columns = len(self.mat[0])
-    # Base case (2x2 matrix)
-    if rows == 2 and columns == 2:
+    # Special 1x1 case
+    if rows == 1 and columns == 1:
+      return self.mat[0][0]
+    # Base recursive case (2x2 matrix)
+    elif rows == 2 and columns == 2:
       # Calculate the determinant with ad - bc
       return self.mat[0][0] * self.mat[1][1] - self.mat[0][1] * self.mat[1][0]
     # Recursive case
@@ -150,7 +153,7 @@ class Matrix:
       # submatrixes to calculate the determinant
       column = 0
       answer = 0
-      for row in rows:
+      for row in range(rows):
         # Used to determine the sign of the current value
         value = (-1) ** (row + column) * self.mat[row][column]
         # Calculate the determinant of the submatrix
@@ -207,8 +210,8 @@ class Matrix:
       new_matrix = Matrix(rows, columns)
       # Calculate the determinant of the original matrix
       determinant = self.determinant()
-      for row in rows:
-        for column in columns:
+      for row in range(rows):
+        for column in range(columns):
           # Calculate the cofactor of that row and column
           cofactor = self.cofactor(row, column)
           # Calculate the new value in the position [column][row]
