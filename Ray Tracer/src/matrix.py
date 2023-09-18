@@ -136,7 +136,6 @@ class Matrix:
 
   # Returns the determinant of the matrix
   # TODO(Luis): Ask Kenneth: The matrix must be valid and squared
-  # TODO(Luis): Test this
   def determinant(self):
     rows = len(self.mat)
     columns = len(self.mat[0])
@@ -158,6 +157,7 @@ class Matrix:
         value = (-1) ** (row + column) * self.mat[row][column]
         # Calculate the determinant of the submatrix
         answer += value * self.submatrix(row, column).determinant()
+      return answer
 
   # Returns the determinant of a submatrix (minor)
   def minor(self, row, column):
