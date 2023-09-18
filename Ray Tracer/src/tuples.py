@@ -59,8 +59,7 @@ class Tuple:
     self.x = -self.x
     self.y = -self.y
     self.z = -self.z
-    # TODO(Luis & Kenneth): Ask if this happens
-    # self.w = -self.w
+    self.w = -self.w
 
   # Scalar multiplication
   def __mul__(self, scalar):
@@ -108,11 +107,9 @@ class Tuple:
     self /= magnitude
 
   # Returns if the tuple is a vector
-  # TODO(Luis & Kenneth): Ask if it is equal or less than zero
   def is_vector(self):
-    return self.w <= 0
+    return self.w == 0
   
   # Return if the tuple is a point
-  # TODO(Luis & Kenneth): Ask if it is equal or greater than zero
   def is_point(self):
-    return self.w >= 1
+    return self.w == 1
