@@ -8,13 +8,11 @@ class Matrix:
     self.mat = \
       [[0 for column in range(columns)] for row in range(rows)]
   
-  # Sets the matrix as invalid
-  # TODO(Kenneth): Ask Luis if we should keep this method
-  def invalid(self):
-    self.__init__(0, 0)
+  # Returns an invalid matrix
+  def invalid():
+    return Matrix(0,0)
 
   # Debugging representation
-  # TODO(Kenneth): Ask Luis which he prefers here
   def __repr__(self):
     if not self.is_valid():
       return 'Invalid matrix'
@@ -22,7 +20,6 @@ class Matrix:
     return 'Matrix({}, {})'.format(len(self.mat), len(self.mat[0]))
   
   # String representation
-  # TODO(Kenneth): Ask Luis what be things about the format
   def __str__(self):
     # Create an empty string
     matrix_str = ""
@@ -40,7 +37,6 @@ class Matrix:
     return matrix_str
 
   # Matrix multiplication
-  # TODO(Kenneth): Ask Luis if we should include validity in this
   def __mul__(self, other):
     # Both matrixes must be valid and have compatible dimensions
     if not self.is_valid() or not other.is_valid() \
@@ -70,7 +66,6 @@ class Matrix:
   # TODO(Kenneth): Ask Luis: "i think we should also have this the other way
   # around vector * self but idk how to implement it without multiple
   # inclusion, help"
-  # TODO(Kenneth): Ask Luis if we should include validity in this
   def __mul__(self, tuple):
      # The matrix mut be valid and have exactly 4 columns
     if not self.is_valid() or len(self.mat[0]) != 4:
@@ -78,8 +73,6 @@ class Matrix:
     # Create a new tuple
     new_tuple = Tuple(0, 0, 0, 0)
     # Calculate the values
-    # TODO(Kenneth): Ask Luis if there is something we can do about this
-    # redundancy
     new_tuple.x = \
       self.mat[0][0] * tuple.x \
       + self.mat[0][1] * tuple.y \
@@ -107,9 +100,10 @@ class Matrix:
   # TODO(Luis & Kenneth): Check if this could fail if is not valid
   # also ask the teacher what is the submatrix of a matrix taking away
   # columns and rows it does not have, the same or invalid?
-  # TODO(Kenneth): Ask Luis about the names and if the number of variables
-  # is reducible
   def submatrix(self, skipping_row, skipping_column):
+    # Outside of the valid ranges
+    if skipping_row >= len(self.mat) or skipping_column >= len(self.mat[0]):
+      return Matrix.invalid()
     # Create a new matrix for the submatrix
     new_matrix = Matrix(len(self.mat) -1, len(self.mat[0])-1)
     # Create indexes to move through the submatrix
@@ -135,7 +129,7 @@ class Matrix:
     return new_matrix
 
   # Returns the determinant of the matrix
-  # TODO(Luis): Ask Kenneth: The matrix must be valid and squared
+  # The matrix must be squared and a valid matrix
   def determinant(self):
     rows = len(self.mat)
     columns = len(self.mat[0])
@@ -191,7 +185,7 @@ class Matrix:
     transpose = Matrix(len(self.mat), len(self.mat))
     # Move through the upper triangle of the matrix
     for row in range(len(self.mat)):
-      for column in range(row + 1, len(other.mat[0])):
+      for column in range(row + 1, len(self.mat[0])):
         # Copy the elements in "transposed" order
         transpose.mat[row][column] = self.mat[column][row]
         transpose.mat[column][row] = self.mat[row][column]
@@ -201,7 +195,6 @@ class Matrix:
     return transpose
 
   # Returns the inverse of the matrix
-  # TODO(Luis): Test this
   def inverse(self):
     if self.is_valid() and self.is_invertible():
       rows = len(self.mat)
@@ -238,6 +231,5 @@ class Matrix:
 
   # Returns if the matrix is invertible
   # The matrix must be valid
-  # TODO(Kenneth): Ask Luis if we should include validity in this
   def is_invertible(self):
     return self.is_square() and self.determinant() != 0

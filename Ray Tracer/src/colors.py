@@ -2,21 +2,18 @@
 
 class Color:
   # Default constructor
-  # TODO(Kenneth): Ask Luis about the name of this attributes
   def __init__(self, r, g, b):
     self.r = r
     self.g = g
     self.b = b
 
-  # Set as the color black
-  # TODO(Kenneth): Ask Luis if we should have this constructor
-  def black(self):
-    self.__init__(0, 0, 0)
+  # Create a black instance
+  def black():
+    return Color(0, 0, 0)
  
-  # Set as the color white
-  # TODO(Kenneth): Ask Luis if we should have this constructor
-  def white(self):
-    self.__init__(1, 1, 1)
+  # Create a white instance
+  def white():
+    return Color(1, 1, 1)
 
   # Debugging representation
   def __repr__(self):
@@ -81,11 +78,9 @@ class Color:
     self.b /= scalar
 
   # Returns if the tuple is a vector
-  # TODO(Kenneth): Ask Luis if we should have this method
   def is_black(self):
     return self.r == 0 and self.g == 0 and self.b == 0
   
   # Return if the tuple is a point
-  # TODO(Kenneth): Ask Luis if we should have this method
   def is_white(self):
     return self.r == 1 and self.g == 1 and self.b == 1

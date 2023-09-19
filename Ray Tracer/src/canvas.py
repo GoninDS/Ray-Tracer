@@ -1,7 +1,6 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-# TODO(Kenneth): Help i dont remember how to include in python
-import Color
+from colors import Color
 
 class Canvas:
   # Default constructor
@@ -9,8 +8,7 @@ class Canvas:
     self.height = height
     self.width = width
     self.pixels = \
-      [[1 for column in range(width)] for row in range(height)]
-  
+      [[Color.white() for column in range(width)] for row in range(height)]
     
   # Debugging representation
   def __repr__(self):
@@ -21,7 +19,7 @@ class Canvas:
   # TODO(Kenneth): Ask Luis if we should print like this or in ppm format
   def __str__(self): 
      # Create an string with the dimensions
-    canvas_str = str(self.heigh) + " " +  str(self.width) + "\n"
+    canvas_str = str(self.height) + " " +  str(self.width) + "\n"
     # Move through all the elements in the canvas
     for row in range(self.height):
       for column in range(self.width):

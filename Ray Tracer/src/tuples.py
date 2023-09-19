@@ -4,21 +4,17 @@ import math
 
 class Tuple:
   # Default constructor
-  def __init__(self, x, y, z, w):
+  def __init__(self, x = 0, y = 0, z = 0, w = 0):
     self.x = x
     self.y = y
     self.z = z
     self.w = w
 
   # Set as vector
-  # TODO(Luis & Kenneth): Ask teacher if this constructor should be
-  # declared this way
   def vector(self, x, y, z):
     self.__init__(x, y, z, 0)
  
   # Set as point
-  # TODO(Luis & Kenneth): Ask teacher if this constructor should be
-  # declared this way
   def point(self, x ,y, z):
     self.__init__(x, y, z, 1)
 
@@ -98,9 +94,6 @@ class Tuple:
     magnitude = math.sqrt(magnitude)
     return magnitude
 
-  # TODO(Luis & Kenneth): consider if static
-  # @classmethod
-  # @staticmethod
   # Normalization of a tuple
   def normalize(self):
     magnitude = self.magnitude()
