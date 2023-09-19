@@ -23,6 +23,10 @@ class Color:
   def __str__(self): 
     return '({}, {}, {})'.format(self.r, self.g, self.b)
   
+  # Checks if two colors are equal in values
+  def __eq__(self, other):
+    return self.r == other.r and self.g == other.g and self.b == other.b
+
   # Addition of two colors
   def __add__(self, other):
     new_color = Color(0, 0, 0)

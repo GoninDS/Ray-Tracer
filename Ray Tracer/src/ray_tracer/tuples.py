@@ -4,7 +4,7 @@ import math
 
 class Tuple:
   # Default constructor
-  def __init__(self, x = 0, y = 0, z = 0, w = 0):
+  def __init__(self, x = 0.0, y = 0.0, z = 0.0, w = 0.0):
     self.x = x
     self.y = y
     self.z = z
@@ -26,6 +26,11 @@ class Tuple:
   def __str__(self): 
     return '({}, {}, {}, {})'.format(self.x, self.y, self.z, self.w)
   
+  # Checks if two tuples are equal in values
+  def __eq__(self, other):
+    return self.x == other.x and self.y == other.y and self.z == other.z \
+      and self.w == other.w
+
   # Addition of two tuples
   def __add__(self, other):
     new_tuple = Tuple(0, 0, 0, 0)
@@ -52,24 +57,30 @@ class Tuple:
 
   # Negation of a tuple
   def __neg__(self):
-    self.x = -self.x
-    self.y = -self.y
-    self.z = -self.z
-    self.w = -self.w
+    new_tuple = Tuple()
+    new_tuple.x = -self.x
+    new_tuple.y = -self.y
+    new_tuple.z = -self.z
+    new_tuple.w = -self.w
+    return new_tuple
 
   # Scalar multiplication
   def __mul__(self, scalar):
-    self.x *= scalar
-    self.y *= scalar
-    self.z *= scalar
-    self.w *= scalar
+    new_tuple = Tuple()
+    new_tuple.x = self.x * scalar
+    new_tuple.y = self.y * scalar
+    new_tuple.z = self.z * scalar
+    new_tuple.w = self.w * scalar
+    return new_tuple
 
   # Scalar division
-  def __div__(self, scalar):
-    self.x /= scalar
-    self.y /= scalar
-    self.z /= scalar
-    self.w /= scalar
+  def __truediv__(self, scalar):
+    new_tuple = Tuple()
+    new_tuple.x = self.x / scalar
+    new_tuple.y = self.y / scalar
+    new_tuple.z = self.z / scalar
+    new_tuple.w = self.w / scalar
+    return new_tuple
 
   # Dot product of two tuples
   def dot(self, other):
@@ -106,3 +117,7 @@ class Tuple:
   # Return if the tuple is a point
   def is_point(self):
     return self.w == 1
+  
+  @staticmethod
+  def equal(first_value, second_value):
+    return first_value == second_value
