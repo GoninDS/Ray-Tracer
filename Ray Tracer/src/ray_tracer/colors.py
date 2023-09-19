@@ -2,7 +2,7 @@
 
 class Color:
   # Default constructor
-  def __init__(self, r, g, b):
+  def __init__(self, r = 0.0, g = 0.0, b = 0.0):
     self.r = r
     self.g = g
     self.b = b
@@ -46,40 +46,48 @@ class Color:
     return new_color
 
   # Negation of a Color
-  # TODO(Kenneth): Ask Luis (and possibly the teacher) if we
-  # should have this method
   def __neg__(self):
-    self.r = -self.r
-    self.g = -self.g
-    self.b = -self.b
+    negated_color = Color()
+    negated_color.r = -self.r
+    negated_color.g = -self.g
+    negated_color.b = -self.b
+    return negated_color
 
   # Color multiplication
   def __mul__(self, other):
-    self.r *= other.r
-    self.g *= other.g
-    self.b *= other.b
+    result = Color()
+    result = self.r * other.r
+    result = self.g * other.g
+    result = self.b * other.b
+    return result
 
   # Color division
   # TODO(Kenneth): Ask Luis (and possibly the teacher) if we
   # should have this method
-  def __div__(self, other):
-    self.r /= other.r
-    self.g /= other.g
-    self.b /= other.b
+  def __truediv__(self, other):
+    result = Color()
+    result = self.r / other.r
+    result = self.g / other.g
+    result = self.b / other.b
+    return result
 
   # Scalar multiplication
   def __mul__(self, scalar):
-    self.r *= scalar
-    self.g *= scalar
-    self.b *= scalar
+    result = Color()
+    result = self.r * scalar
+    result = self.g * scalar
+    result = self.b * scalar
+    return result
 
   # Scalar division
   # TODO(Kenneth): Ask Luis (and possibly the teacher) if we
   # should have this method
-  def __div__(self, scalar):
-    self.r /= scalar
-    self.g /= scalar
-    self.b /= scalar
+  def __truediv__(self, scalar):
+    result = Color()
+    result = self.r / scalar
+    result = self.g / scalar
+    result = self.b / scalar
+    return result
 
   # Returns if the tuple is a vector
   def is_black(self):

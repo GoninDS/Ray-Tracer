@@ -94,8 +94,8 @@ class Tuple:
   def cross(self, other):
     new_tuple = Tuple(0, 0, 0, 0)
     new_tuple.x = self.y * other.z - self.z * other.y
-    new_tuple.y = self.z * other.x - self.x * self.z
-    new_tuple.z = self.x * other.y - self.y * other.z
+    new_tuple.y = self.z * other.x - self.x * other.z
+    new_tuple.z = self.x * other.y - self.y * other.x
     # TODO(Luis & Kenneth): Ask if cross product always results in vectors
     return new_tuple
 
@@ -107,8 +107,19 @@ class Tuple:
 
   # Normalization of a tuple
   def normalize(self):
+    new_tuple = Tuple(self.x, self.y, self.z, self.w)
     magnitude = self.magnitude()
-    self /= magnitude
+    new_tuple /= magnitude
+    return new_tuple
+
+  # Reflects a vector in based to the normal
+  def reflect(self, normal):
+    answer = self - normal * 2 * self.dot(normal)
+    # TODO(us): Ask if should always be rounded
+    answer.x = round(answer.x)
+    answer.y = round(answer.y) 
+    answer.z = round(answer.z)
+    return answer
 
   # Returns if the tuple is a vector
   def is_vector(self):
