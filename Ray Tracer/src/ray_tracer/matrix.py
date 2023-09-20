@@ -8,7 +8,8 @@ class Matrix:
     self.mat = \
       [[0 for column in range(columns)] for row in range(rows)]
   
-  # Returns an invalid matrix
+  # Creates an invalid matrix instance
+  @staticmethod
   def invalid():
     return Matrix(0,0)
 
