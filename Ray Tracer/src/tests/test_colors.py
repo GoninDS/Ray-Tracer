@@ -14,19 +14,19 @@ def test_add_colors():
 	expectedC = Color(1.6, 0.7, 1.0)
 	assert(expectedC == c1 + c2)
 
-def subtractingColors():
+def test_subtractingColors():
 	c1 = Color(0.9, 0.6, 0.75)
 	c2 = Color(0.7, 0.1, 0.25)
 	expectedC = Color(0.2, 0.5, 0.5)
 	assert(expectedC == c1 - c2)
 
-def multiplyingColorScalar():
-    c1 = Color(0.2, 0.3, 0.4) 
-    expectedC = Color(0.4, 0.6, 0.8)
-    assert(expectedC == c1 * 2)
+def test_multiplyingColorScalar():
+  c1 = Color(0.2, 0.3, 0.4) 
+  expectedC = Color(0.4, 0.6, 0.8)
+  assert(expectedC == c1 * 2)
 
-def multiplyingColors():
-    c1 = Color(1, 0.2, 0.4)
-    c2 = Color(0.9, 1, 0.1)
-    expectedC = Color(0.9, 0.2, 0.04)
-    assert(expectedC == c1 * c2)
+def test_multiplyingColors():
+  c1 = Color(1, 0.2, 0.4)
+  c2 = Color(0.9, 1, 0.1)
+  expectedC = Color(0.9, 0.2, 0.04)
+  assert(expectedC == c1 * c2)
