@@ -35,6 +35,10 @@ class Matrix:
       matrix_str += ")\n"
     # Return the string
     return matrix_str
+  
+  # Bracket indexation
+  def  __getitem__(self, index):
+    return self.mat[index]
 
   # Matrix multiplication
   def __mul__(self, other):
