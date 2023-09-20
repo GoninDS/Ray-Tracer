@@ -10,13 +10,15 @@ class Tuple:
     self.z = z
     self.w = w
 
-  # Set as vector
-  def vector(self, x, y, z):
-    self.__init__(x, y, z, 0)
+  # Return a vector
+  @staticmethod
+  def vector(x, y, z):
+    return Tuple(x, y, z, 0)
  
-  # Set as point
-  def point(self, x ,y, z):
-    self.__init__(x, y, z, 1)
+  # Return a point
+  @staticmethod
+  def point(x ,y, z):
+    return Tuple(x, y, z, 1)
 
   # Debugging representation
   def __repr__(self):
