@@ -10,12 +10,12 @@ class Tuple:
     self.z = z
     self.w = w
 
-  # Return a vector
+  # Create a vector instance
   @staticmethod
   def vector(x, y, z):
     return Tuple(x, y, z, 0)
  
-  # Return a point
+  # Create a point instance
   @staticmethod
   def point(x ,y, z):
     return Tuple(x, y, z, 1)
