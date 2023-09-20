@@ -31,6 +31,7 @@ class Tuple:
     return '({}, {}, {}, {})'.format(self.x, self.y, self.z, self.w)
   
   # Checks if two tuples are equal in values
+  # TODO(Us): FIX THIS EQUAL BY CALLING OTHER
   def __eq__(self, other):
     return self.x == other.x and self.y == other.y and self.z == other.z \
       and self.w == other.w
@@ -119,10 +120,6 @@ class Tuple:
   # Reflects a vector in based to the normal
   def reflect(self, normal):
     answer = self - normal * 2 * self.dot(normal)
-    # TODO(us): Ask if should always be rounded
-    answer.x = round(answer.x)
-    answer.y = round(answer.y) 
-    answer.z = round(answer.z)
     return answer
 
   # Returns if the tuple is a vector
