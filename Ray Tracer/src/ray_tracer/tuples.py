@@ -3,6 +3,8 @@
 import math
 
 class Tuple:
+  EPSILON = 0.00001
+
   # Default constructor
   def __init__(self, x = 0.0, y = 0.0, z = 0.0, w = 0.0):
     self.x = x
@@ -131,6 +133,5 @@ class Tuple:
   def is_point(self):
     return self.w == 1
   
-  @staticmethod
-  def equal(first_value, second_value):
-    return first_value == second_value
+  def equal(self, first_value, second_value):
+    return abs(first_value - second_value) < self.EPSILON
