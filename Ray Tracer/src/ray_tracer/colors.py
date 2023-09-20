@@ -8,10 +8,12 @@ class Color:
     self.b = b
 
   # Create a black instance
+  @staticmethod
   def black():
     return Color(0, 0, 0)
  
   # Create a white instance
+  @staticmethod
   def white():
     return Color(1, 1, 1)
 
