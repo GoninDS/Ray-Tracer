@@ -33,14 +33,13 @@ class Canvas:
     return canvas_str
   
   # Writes a pixel of the specificized color at the given coordinates
-  # TODO(Luis & Kenneth): Implement this
   def write_pixel(self, x, y, color):
-    pass
+    self.pixels[x][y] = color
 
   # Returns the color of the pixel at the given coordinates
   # TODO(Luis & Kenneth): Implement this
   def pixel_at(self, x, y):
-    pass
+    return self.pixels[x][y]
 
   # Writes a ppm file with the canvas using the specified filename
   # TODO(Luis & Kenneth): Implement this
