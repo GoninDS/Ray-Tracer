@@ -4,7 +4,7 @@ class Color:
   EPSILON = 0.00001
 
   # Default constructor
-  def __init__(self, r = 0.0, g = 0.0, b = 0.0):
+  def __init__(self, r = 1.0, g = 1.0, b = 1.0):
     self.r = r
     self.g = g
     self.b = b
@@ -12,12 +12,12 @@ class Color:
   # Create a black instance
   @staticmethod
   def black():
-    return Color(0, 0, 0)
+    return Color(0.0, 0.0, 0.0)
  
   # Create a white instance
   @staticmethod
   def white():
-    return Color(1, 1, 1)
+    return Color(1.0, 1.0, 1.0)
 
   # Debugging representation
   def __repr__(self):
@@ -28,7 +28,6 @@ class Color:
     return '({}, {}, {})'.format(self.r, self.g, self.b)
   
   # Checks if two colors are equal in values
-  # TODO(Us): FIX THIS EQUAL BY CALLING OTHER
   def __eq__(self, other):
     return self.equal(self.r, other.r) and \
     self.equal(self.g, other.g) and \
@@ -45,7 +44,7 @@ class Color:
 
   # Subtraction of two colors
   def __sub__(self, other):
-    new_color = Color(0, 0, 0)
+    new_color = Color()
     new_color.r = self.r - other.r
     new_color.g = self.g - other.g
     new_color.b = self.b - other.b
@@ -59,50 +58,71 @@ class Color:
     negated_color.g = -self.g
     negated_color.b = -self.b
     return negated_color
+  
+  # Multiplications
+  def __mul__(self, other):
+    # If the other is a Color
+    if isinstance(other, Color):
+      return self.color_multiplication(other)
+    # If the other is int o float
+    elif isinstance(other, (int, float)):
+      return self.scalar_multiplication(other)
+     # If other is any other type
+    else:
+      raise TypeError("Unsupported operand type for multiplication")
 
   # Color multiplication
-  def __mul__(self, other):
+  def color_multiplication(self, other):
     result = Color()
-    result = self.r * other.r
-    result = self.g * other.g
-    result = self.b * other.b
+    result.r = self.r * other.r
+    result.g = self.g * other.g
+    result.b = self.b * other.b
     return result
+  
+  # Scalar multiplication
+  def scalar_multiplication(self, scalar):
+    result = Color()
+    result.r = self.r * scalar
+    result.g = self.g * scalar
+    result.b = self.b * scalar
+    return result
+  
+  # Divisions
+  def __truediv__(self, other):
+    # If the other is a Color
+    if isinstance(other, Color):
+      return self.color_division(other)
+    # If the other is int o float
+    elif isinstance(other, (int, float)):
+      return self.scalar_division(other)
+    # If other is any other type
+    else:
+      raise TypeError("Unsupported operand type for division")
 
   # Color division
-  # TODO(Kenneth): Ask Luis (and possibly the teacher) if we
-  # should have this method
-  def __truediv__(self, other):
+  def color_division(self, other):
     result = Color()
-    result = self.r / other.r
-    result = self.g / other.g
-    result = self.b / other.b
-    return result
-
-  # Scalar multiplication
-  def __mul__(self, scalar):
-    result = Color()
-    result = self.r * scalar
-    result = self.g * scalar
-    result = self.b * scalar
+    result.r = self.r / other.r
+    result.g = self.g / other.g
+    result.b = self.b / other.b
     return result
 
   # Scalar division
-  # TODO(Kenneth): Ask Luis (and possibly the teacher) if we
-  # should have this method
-  def __truediv__(self, scalar):
+  def scalar_division(self, scalar):
     result = Color()
-    result = self.r / scalar
-    result = self.g / scalar
-    result = self.b / scalar
+    result.r = self.r / scalar
+    result.g = self.g / scalar
+    result.b = self.b / scalar
     return result
 
   # Returns if the tuple is a vector
   def is_black(self):
-    return self.r == 0 and self.g == 0 and self.b == 0
+    return self.r == 0.0 and self.g == 0.0 and self.b == 0.0
   
   # Return if the tuple is a point
   def is_white(self):
-    return self.r == 1 and self.g == 1 and self.b == 1
+    return self.r == 1.0 and self.g == 1.0 and self.b == 1.0
 
+  # Checks if two values are basically the same
   def equal(self, first_value, second_value):
     return abs(first_value - second_value) < self.EPSILON
