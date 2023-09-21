@@ -3,6 +3,9 @@
 import math
 
 class Tuple:
+  # Epsilon constant for comparing two values
+  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
+  # redundancy
   EPSILON = 0.00001
 
   # Default constructor
@@ -133,5 +136,7 @@ class Tuple:
     return self.w == 1
   
   # Checks if two values are basically the same
+  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
+  # redundancy
   def equal(self, first_value, second_value):
     return abs(first_value - second_value) < self.EPSILON

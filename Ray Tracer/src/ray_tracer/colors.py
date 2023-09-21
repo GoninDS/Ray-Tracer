@@ -1,6 +1,9 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
 class Color:
+  # Epsilon constant for comparing two values
+  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
+  # redundancy
   EPSILON = 0.00001
 
   # Default constructor
@@ -124,5 +127,7 @@ class Color:
     return self.r == 1.0 and self.g == 1.0 and self.b == 1.0
 
   # Checks if two values are basically the same
+  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
+  # redundancy
   def equal(self, first_value, second_value):
     return abs(first_value - second_value) < self.EPSILON
