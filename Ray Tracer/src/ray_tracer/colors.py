@@ -1,6 +1,8 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
 class Color:
+  EPSILON = 0.00001
+
   # Default constructor
   def __init__(self, r = 0.0, g = 0.0, b = 0.0):
     self.r = r
@@ -26,12 +28,15 @@ class Color:
     return '({}, {}, {})'.format(self.r, self.g, self.b)
   
   # Checks if two colors are equal in values
+  # TODO(Us): FIX THIS EQUAL BY CALLING OTHER
   def __eq__(self, other):
-    return self.r == other.r and self.g == other.g and self.b == other.b
+    return self.equal(self.r, other.r) and \
+    self.equal(self.g, other.g) and \
+    self.equal(self.b, other.b)
 
   # Addition of two colors
   def __add__(self, other):
-    new_color = Color(0, 0, 0)
+    new_color = Color()
     new_color.r = self.r + other.r
     new_color.g = self.g + other.g
     new_color.b = self.b + other.b
@@ -98,3 +103,6 @@ class Color:
   # Return if the tuple is a point
   def is_white(self):
     return self.r == 1 and self.g == 1 and self.b == 1
+
+  def equal(self, first_value, second_value):
+    return abs(first_value - second_value) < self.EPSILON
