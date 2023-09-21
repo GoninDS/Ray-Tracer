@@ -3,10 +3,15 @@
 from tuples import Tuple
 
 class Matrix:
+  # Epsilon constant for comparing two values
+  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
+  # redundancy
+  EPSILON = 0.00001
+
   # Default constructor
   def __init__(self, rows, columns):
     self.mat = \
-      [[0 for column in range(columns)] for row in range(rows)]
+      [[0.0 for column in range(columns)] for row in range(rows)]
   
   # Creates an invalid matrix instance
   @staticmethod
@@ -40,9 +45,47 @@ class Matrix:
   # Bracket indexation
   def  __getitem__(self, index):
     return self.mat[index]
+  
+  # Checks if two matrixes are equal in dimensions and values
+  def __eq__(self, other):
+    # Assume the matrixes won´t be equal
+    equal = False
+    # If both matrixes are valid
+    if self.is_valid() and other.is_valid():
+      # If they have the same dimensions
+      if len(self.mat) == len(other.mat) \
+        and len(self.mat[0]) == len(other.mat[0]):
+        # Loop through all the values in the matrixes
+        for row in range(len(self.mat)):
+          for column in range(len(self.mat[row])):
+            # If any two values are not equal
+            if not self.equal(self.mat[row][column], other.mat[row][column]):
+              # Fail immediately
+              return False
+        # If it did not fail, change the bool to true
+        equal = True
+    # If any of the matrixes is invalid
+    else:
+      # If both matrixes are invalid
+      if not self.is_valid() and not other.is_valid():
+        equal = True
+    # Return the bool
+    return equal
+  
+  # Multiplications
+  def __mul__(self, other):
+    # If the other is a Color
+    if isinstance(other, Matrix):
+      return self.matrix_multiplication(other)
+    # If the other is int o float
+    elif isinstance(other, Tuple):
+      return self.tuple_multiplication(other)
+     # If other is any other type
+    else:
+      raise TypeError("Unsupported operand type for multiplication")
 
   # Matrix multiplication
-  def __mul__(self, other):
+  def matrix_multiplication(self, other):
     # Both matrixes must be valid and have compatible dimensions
     if not self.is_valid() or not other.is_valid() \
       or not self.have_compatible_dimensions(other):
@@ -71,12 +114,12 @@ class Matrix:
   # TODO(Kenneth): Ask Luis: "i think we should also have this the other way
   # around vector * self but idk how to implement it without multiple
   # inclusion, help"
-  def __mul__(self, tuple):
+  def tuple_multiplication(self, tuple):
      # The matrix mut be valid and have exactly 4 columns
     if not self.is_valid() or len(self.mat[0]) != 4:
       return Matrix.invalid()
     # Create a new tuple
-    new_tuple = Tuple(0, 0, 0, 0)
+    new_tuple = Tuple()
     # Calculate the values
     new_tuple.x = \
       self.mat[0][0] * tuple.x \
@@ -238,3 +281,9 @@ class Matrix:
   # The matrix must be valid
   def is_invertible(self):
     return self.is_square() and self.determinant() != 0
+  
+  # Checks if two values are basically the same
+  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
+  # redundancy
+  def equal(self, first_value, second_value):
+    return abs(first_value - second_value) < self.EPSILON
