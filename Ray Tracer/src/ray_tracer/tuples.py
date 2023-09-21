@@ -33,8 +33,10 @@ class Tuple:
   # Checks if two tuples are equal in values
   # TODO(Us): FIX THIS EQUAL BY CALLING OTHER
   def __eq__(self, other):
-    return self.x == other.x and self.y == other.y and self.z == other.z \
-      and self.w == other.w
+    return self.equal(self.x, other.x) \
+      and self.equal(self.y, other.y) \
+      and self.equal(self.z, other.z) \
+      and self.equal(self.w, other.w)
 
   # Addition of two tuples
   def __add__(self, other):
@@ -130,5 +132,6 @@ class Tuple:
   def is_point(self):
     return self.w == 1
   
+  # Checks if two values are basically the same
   def equal(self, first_value, second_value):
     return abs(first_value - second_value) < self.EPSILON
