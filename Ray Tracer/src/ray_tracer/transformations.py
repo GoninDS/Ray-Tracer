@@ -1,7 +1,5 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-# TODO(Luis & Kenneth): Run tests after they are correct
-
 import math
 
 from matrix import Matrix
