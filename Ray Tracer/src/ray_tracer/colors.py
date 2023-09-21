@@ -29,9 +29,9 @@ class Color:
   
   # Checks if two colors are equal in values
   def __eq__(self, other):
-    return self.equal(self.r, other.r) and \
-    self.equal(self.g, other.g) and \
-    self.equal(self.b, other.b)
+    return self.equal(self.r, other.r) \
+    and self.equal(self.g, other.g) \
+    and self.equal(self.b, other.b)
 
   # Addition of two colors
   def __add__(self, other):
