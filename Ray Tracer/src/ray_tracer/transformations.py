@@ -76,15 +76,15 @@ class Transformation():
 
   # Creates a shearing matrix
   @staticmethod
-  def shearing(first_x, second_x, first_y, second_y, first_z, second_z):
+  def shearing(x_in_y, x_in_z, y_in_x, y_in_z, z_in_x, z_in_y):
     matrix = Matrix(4, 4).identity()
     # First row
-    matrix[0][1] = first_x
-    matrix[0][1] = second_x
+    matrix[0][1] = x_in_y
+    matrix[0][2] = x_in_z
     # Second row
-    matrix[1][0] = first_y
-    matrix[1][2] = second_y
+    matrix[1][0] = y_in_x
+    matrix[1][2] = y_in_z
     # Third row
-    matrix[3][0] = first_z
-    matrix[3][1] = second_z
+    matrix[2][0] = z_in_x
+    matrix[2][1] = z_in_y
     return matrix
