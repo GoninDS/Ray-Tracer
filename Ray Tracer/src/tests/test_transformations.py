@@ -1,3 +1,6 @@
+# Copyright Luis Javier Campos Duarte
+# Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
+
 import math
 import pytest
 from transformations import Transformation  # Asumiendo que tienes una clase llamada 'Transformations' en un archivo llamado 'transformations.py'

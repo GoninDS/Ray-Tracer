@@ -1,3 +1,6 @@
+# Copyright Luis Javier Campos Duarte
+# Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
+
 import pytest
 
 from colors import Color

@@ -1,7 +1,12 @@
+# Copyright Luis Javier Campos Duarte
+# Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
+
 import pytest
 
-from canvas import Canvas
-from colors import Color
+from rayTracer.canvas import Canvas
+
+from rayTracer.colors import Color
+
 
 @pytest.fixture
 def canvas_10x20():
@@ -13,8 +18,8 @@ def canvas_5x3():
 
 def test_creating_canvas(canvas_10x20):
   c = canvas_10x20
-  assert c.height() == 20
-  assert c.width() == 10
+  assert c.height == 20
+  assert c.width == 10
 
 def test_writing_pixels_canvas(canvas_10x20):
   c = canvas_10x20
@@ -28,12 +33,12 @@ def test_construct_ppm(canvas_10x20, tmp_path):
   c.canvas_to_ppm(ppm_file)
   
   with open(ppm_file, 'r') as file:
-    lines = file.readlines()
+      lines = file.readlines()
   
   assert lines[0].strip() == "P3"
   assert lines[1].strip() == "10 20"
   assert lines[2].strip() == "255"
-
+  
 def test_construct_ppm2(canvas_5x3, tmp_path):
   c = canvas_5x3
   c1 = Color(1.5, 0, 0)
@@ -48,11 +53,12 @@ def test_construct_ppm2(canvas_5x3, tmp_path):
   c.canvas_to_ppm(ppm_file)
   
   with open(ppm_file, 'r') as file:
-    lines = file.readlines()
+      lines = file.readlines()
   
   assert lines[3].strip() == "255 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
   assert lines[4].strip() == "0 0 0 0 0 0 0 128 0 0 0 0 0 0 0"
   assert lines[5].strip() == "0 0 0 0 0 0 0 0 0 0 0 0 0 0 255"
+  
 
 def test_construct_ppm3(tmp_path):
   c1 = Color(1, 0.8, 0.6)
@@ -62,7 +68,7 @@ def test_construct_ppm3(tmp_path):
   c.canvas_to_ppm(ppm_file)
   
   with open(ppm_file, 'r') as file:
-    lines = file.readlines()
+      lines = file.readlines()
   
   assert lines[3].strip() == "255 204 153 255 204 153 255 204 153 255 204 153 255 204 153 255 204"
   assert lines[4].strip() == "153 255 204 153 255 204 153 255 204 153 255 204 153"

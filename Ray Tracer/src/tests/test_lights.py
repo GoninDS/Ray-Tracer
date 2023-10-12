@@ -1,13 +1,18 @@
+# Copyright Luis Javier Campos Duarte
+# Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
+
 import pytest
-from lights import PointLight
-from tuples import Tuple
-from colors import Color
+from rayTracer.lights import Lights
+from rayTracer.tuples import Tuples
+from rayTracer.colors import Colors
 
 def test_point_light_with_intensity_position():
-  intensity = Color(1, 1, 1)
-  position = Tuple.point(0, 0, 0)
-  light = PointLight(position, intensity)
-  assert light.position == position
-  assert light.intensity == intensity
+    intensity = Colors(1, 1, 1)
+    position = Tuples()
+    position = position.Point(0, 0, 0)
+    light = Lights()
+    light.point_light(position, intensity)
+    assert light.position == position
+    assert light.intensity == intensity
 
 
