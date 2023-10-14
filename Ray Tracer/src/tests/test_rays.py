@@ -2,9 +2,9 @@
 # Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
 
 import pytest
-from rays import Ray
-from tuples import Tuple
-from transformations import Transformation
+from ray_tracer.rays import Ray
+from ray_tracer.tuples import Tuple
+from ray_tracer.transformations import Transformation
 
 def test_create_ray():
   origin = Tuple.point(1, 2, 3)

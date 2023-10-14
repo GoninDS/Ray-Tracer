@@ -3,8 +3,8 @@
 
 import math
 import pytest
-from transformations import Transformation  # Asumiendo que tienes una clase llamada 'Transformations' en un archivo llamado 'transformations.py'
-from tuples import Tuple  # Asumiendo que tienes una clase llamada 'Tuple' para representar tuplas
+from ray_tracer.transformations import Transformation  # Asumiendo que tienes una clase llamada 'Transformations' en un archivo llamado 'transformations.py'
+from ray_tracer.tuples import Tuple  # Asumiendo que tienes una clase llamada 'Tuple' para representar tuplas
 
 def test_multiplying_translation():
   p = Tuple.point(-3, 4, 5)

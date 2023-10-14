@@ -2,16 +2,16 @@
 # Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
 
 import pytest
-from rayTracer.worlds import Worlds
-from rayTracer.rays import Rays
-from rayTracer.sphere import Sphere
-from rayTracer.intersection import Intersection
-from rayTracer.computations import Computations
-from rayTracer.tuples import Tuples
-from rayTracer.colors import Colors
-from rayTracer.lights import Lights
-from rayTracer.materials import Materials
-from rayTracer.transformations import Transformations
+from ray_tracer.worlds import Worlds
+from ray_tracer.rays import Rays
+from ray_tracer.sphere import Sphere
+from ray_tracer.intersection import Intersection
+from ray_tracer.computations import Computations
+from ray_tracer.tuples import Tuples
+from ray_tracer.colors import Colors
+from ray_tracer.lights import Lights
+from ray_tracer.materials import Materials
+from ray_tracer.transformations import Transformations
 
 def test_creating_world():
     world = Worlds()

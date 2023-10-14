@@ -1,8 +1,8 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-from rays import Ray
-from transformations import Transformation
-from tuples import Tuple
+from ray_tracer.rays import Ray
+from ray_tracer.transformations import Transformation
+from ray_tracer.tuples import Tuple
 
 class Intersection():
   # Default constructor

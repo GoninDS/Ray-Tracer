@@ -2,9 +2,9 @@
 
 import math
 
-from tuples import Tuple
-from intersection import Intersection
-from transformations import Transformation
+from ray_tracer.tuples import Tuple
+from ray_tracer.intersection import Intersection
+from ray_tracer.transformations import Transformation
 
 class Ray:
   # Default constructor

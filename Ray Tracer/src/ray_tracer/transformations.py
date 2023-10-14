@@ -2,7 +2,7 @@
 
 import math
 
-from matrix import Matrix
+from ray_tracer.matrix import Matrix
 
 class Transformation():
   # Creates a translation matrix

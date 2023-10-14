@@ -2,9 +2,9 @@
 # Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
 
 import pytest
-from rayTracer.lights import Lights
-from rayTracer.tuples import Tuples
-from rayTracer.colors import Colors
+from ray_tracer.lights import Lights
+from ray_tracer.tuples import Tuples
+from ray_tracer.colors import Colors
 
 def test_point_light_with_intensity_position():
     intensity = Colors(1, 1, 1)

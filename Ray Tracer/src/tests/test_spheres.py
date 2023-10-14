@@ -2,13 +2,13 @@
 # Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
 
 import pytest
-from rayTracer.rays import Rays
-from rayTracer.sphere import Sphere
-from rayTracer.intersection import Intersection
-from rayTracer.transformations import Transformations
-from rayTracer.tuples import Tuples
-from rayTracer.materials import Materials
-from rayTracer.matrix import Matrix
+from ray_tracer.rays import Rays
+from ray_tracer.sphere import Sphere
+from ray_tracer.intersection import Intersection
+from ray_tracer.transformations import Transformations
+from ray_tracer.tuples import Tuples
+from ray_tracer.materials import Materials
+from ray_tracer.matrix import Matrix
 
 def test_two_points_intersection_sphere():
     origin = Tuples().Point(0, 0, -5)
