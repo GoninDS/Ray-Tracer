@@ -61,6 +61,5 @@ class Ray:
         t2 = (-b + math.sqrt(discriminant)) / (2 * a)
         results.append(Intersection(t2, object))
 
-    print("Discriminante: " + str(discriminant))
     # Return the list of intersections
     return results
