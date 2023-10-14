@@ -64,4 +64,4 @@ class Light:
         specular = self.intensity * material.specular * factor
     
     # Return the combination of all the lights
-    return ambient * diffuse * specular
+    return ambient + diffuse + specular
