@@ -6,7 +6,6 @@ import pytest
 from ray_tracer.canvas import Canvas
 from ray_tracer.colors import Color
 
-
 @pytest.fixture
 def canvas_10x20():
   return Canvas(10, 20)

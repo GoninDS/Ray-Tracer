@@ -13,3 +13,15 @@ class Light:
   @staticmethod
   def point_light(position, intensity):
     return Light(position, intensity)
+  
+  # Debuggin representation
+  def __repr__(self):
+    return 'Light(({}, {}, {}), ({}, {}, {}))'.format(
+      self.position.x, self.position.y, self.position.z,
+      self.intensity.r, self.intensity.g, self.intensity.b)
+  
+  # String representation
+  def __str__(self):
+    return '(({}, {}, {}), ({}, {}, {}))'.format(
+      self.position.x, self.position.y, self.position.z,
+      self.intensity.r, self.intensity.g, self.intensity.b)

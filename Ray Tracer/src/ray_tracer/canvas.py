@@ -4,7 +4,7 @@ from ray_tracer.colors import Color
 
 class Canvas:
   # Default constructor
-  def __init__(self, height, width):
+  def __init__(self, width, height):
     self.height = height
     self.width = width
     self.pixels = \
@@ -16,7 +16,6 @@ class Canvas:
     return 'Canvas({}, {})'.format(self.height, self.width)
   
   # String representation
-  # TODO(Kenneth): Ask Luis if we should print like this or in ppm format
   def __str__(self): 
      # Create an string with the dimensions
     canvas_str = str(self.height) + " " +  str(self.width) + "\n"
@@ -37,10 +36,21 @@ class Canvas:
     self.pixels[x][y] = color
 
   # Returns the color of the pixel at the given coordinates
+  # TODO(Luis): Ask if that makes sense
   def pixel_at(self, x, y):
     return self.pixels[x][y]
 
   # Writes a ppm file with the canvas using the specified filename
-  # TODO(Luis & Kenneth): Implement this
+  # TODO(Luis): Implement this
   def canvas_to_ppm(self, filename):
-    pass
+    # Open a file with the truncate option
+    file = open(filename, 'w')
+    # Write the format
+    file.write('P3\n')
+    # Write the x and y dimensions
+    file.write('{} {}'.format(self.width, self.height))
+    file.write('\n')
+    # Write the max value possible in the PPM file
+    file.write('255\n')
+  
+Canvas(1,2).canvas_to_ppm('test.txt')
