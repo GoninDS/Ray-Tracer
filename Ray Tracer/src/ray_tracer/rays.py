@@ -34,7 +34,7 @@ class Ray:
     new_ray.direction = transformation * self.direction
     return new_ray
   
-  # Returns the intersection bew
+  # Returns the intersection between the ray and the object
   def intersect(self, object):
     # Get the transformed ray
     transformed_ray = self.transform(object.transform.inverse())
@@ -63,3 +63,8 @@ class Ray:
 
     # Return the list of intersections
     return results
+  
+  # Returns all the intersections from the ray on the 
+  # TODO(Luis & Kenneth): Implement this
+  def intersect_world(world):
+    pass

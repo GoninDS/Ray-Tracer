@@ -56,3 +56,14 @@ class Computation():
       if (min is None or abs(intersection.t) < min.t):
         min = intersection
     return min
+  
+  # TODO(Luis & Kenneth): Implement this
+  # TODO(Kenneth): Idk if we should have this here
+  def shade_hit(world):
+    pass
+
+  # TODO(Luis & Kenneth): Implement this
+  # TODO(Kenneth): Idk if we should have this here
+  @staticmethod
+  def color_at(world, ray):
+    pass
