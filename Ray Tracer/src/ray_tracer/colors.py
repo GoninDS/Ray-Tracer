@@ -19,6 +19,29 @@ class Color:
   def white():
     return Color(1.0, 1.0, 1.0)
 
+  # Translates from 0-1 to 0-255
+  def translate_to_canvas(self):
+    # Call the translation function for the red value
+    self.r = Color.translate_value(self.r)
+    # Call the translation function for the green value    
+    self.g = Color.translate_value(self.g)
+    # Call the translation function for the blue value
+    self.b = Color.translate_value(self.b)
+    return self
+
+  @staticmethod
+  def translate_value(value):
+    # If the value is less than permited
+    if value < 0:
+      value = 0
+    # More than permited
+    elif value > 1:
+      value = 255
+    # Translate the value
+    else:
+      value = round(value * 255)
+    return value
+
   # Debugging representation
   def __repr__(self):
     return 'Color({}, {}, {})'.format(self.r, self.g, self.b)
