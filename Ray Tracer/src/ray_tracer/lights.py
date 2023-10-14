@@ -9,6 +9,11 @@ class Light:
     self.position = position
     self.intensity = intensity
   
+  # Checks if two light sources are the same
+  def __eq__(self, other):
+    return self.position == other.position \
+      and self.intensity ==  other.intensity
+
   # Create a light pointing at an specific point
   @staticmethod
   def point_light(position, intensity):
