@@ -3,8 +3,8 @@
 
 import pytest
 
-from matrix import Matrix
-from tuples import Tuple
+from ray_tracer.matrix import Matrix
+from ray_tracer.tuples import Tuple
 
 COLUMNS = 4
 ROWS = 4

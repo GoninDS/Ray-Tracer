@@ -1,13 +1,9 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-from tuples import Tuple
+from ray_tracer.tuples import Tuple
+import ray_tracer.common as common
 
 class Matrix:
-  # Epsilon constant for comparing two values
-  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
-  # redundancy
-  EPSILON = 0.00001
-
   # Default constructor
   def __init__(self, rows, columns):
     self.mat = \
@@ -59,7 +55,7 @@ class Matrix:
         for row in range(len(self.mat)):
           for column in range(len(self.mat[row])):
             # If any two values are not equal
-            if not self.equal(self.mat[row][column], other.mat[row][column]):
+            if not common.equal(self.mat[row][column], other.mat[row][column]):
               # Fail immediately
               return False
         # If it did not fail, change the bool to true
@@ -281,9 +277,3 @@ class Matrix:
   # The matrix must be valid
   def is_invertible(self):
     return self.is_square() and self.determinant() != 0
-  
-  # Checks if two values are basically the same
-  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
-  # redundancy
-  def equal(self, first_value, second_value):
-    return abs(first_value - second_value) < self.EPSILON
