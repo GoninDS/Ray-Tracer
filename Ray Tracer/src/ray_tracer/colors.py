@@ -1,11 +1,8 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-class Color:
-  # Epsilon constant for comparing two values
-  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
-  # redundancy
-  EPSILON = 0.00001
+import ray_tracer.common as common
 
+class Color:
   # Default constructor
   def __init__(self, r = 1.0, g = 1.0, b = 1.0):
     self.r = r
@@ -32,9 +29,9 @@ class Color:
   
   # Checks if two colors are equal in values
   def __eq__(self, other):
-    return self.equal(self.r, other.r) \
-    and self.equal(self.g, other.g) \
-    and self.equal(self.b, other.b)
+    return common.equal(self.r, other.r) \
+    and common.equal(self.g, other.g) \
+    and common.equal(self.b, other.b)
 
   # Addition of two colors
   def __add__(self, other):
@@ -125,9 +122,3 @@ class Color:
   # Return if the tuple is a point
   def is_white(self):
     return self.r == 1.0 and self.g == 1.0 and self.b == 1.0
-
-  # Checks if two values are basically the same
-  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
-  # redundancy
-  def equal(self, first_value, second_value):
-    return abs(first_value - second_value) < self.EPSILON
