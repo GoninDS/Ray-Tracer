@@ -1,8 +1,6 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-from ray_tracer.rays import Ray
-from ray_tracer.transformations import Transformation
-from ray_tracer.tuples import Tuple
+import ray_tracer.common as common
 
 class Intersection():
   # Default constructor
@@ -18,22 +16,29 @@ class Intersection():
   def __str__(self): 
     return '({}, {})'.format(self.t, self.object)
   
+  # Checks if two intersections are equal
+  def __eq__(self, other):
+    return common.equal(self.t, other.t) and \
+      self.object.id == other.object.id
+  
   # Method to return the value of the t
   # Used for sorting
-  def intersection_value_t(intersection):
+  @staticmethod
+  def value_t(intersection):
     return intersection.t
 
   # Returns the hit from a list of intersections
   @staticmethod
   def intersections(*intersections):
     result = list(intersections)
-    result.sort(key=intersection_value_t)
+    result.sort(key=Intersection.value_t)
+    return result
 
   # Returns the hit from a list of intersections
   @staticmethod
   def hit(intersections):
     min = None
     for intersection in intersections:
-      if (min is None or abs(intersection.t) < min.t):
+      if (intersection.t >= 0 and (min is None or intersection.t < min.t)):
         min = intersection
     return min

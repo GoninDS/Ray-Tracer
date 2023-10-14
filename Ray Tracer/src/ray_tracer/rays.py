@@ -4,7 +4,6 @@ import math
 
 from ray_tracer.tuples import Tuple
 from ray_tracer.intersection import Intersection
-from ray_tracer.transformations import Transformation
 
 class Ray:
   # Default constructor
@@ -37,14 +36,16 @@ class Ray:
   
   # Returns the intersection bew
   def intersect(self, object):
+    # Get the transformed ray
+    transformed_ray = self.transform(object.transform.inverse())
     # Create a list of intersections
     results =  []
 
     # Calculate a, b and c
-    sphere_to_ray = self.origin - Tuple.point(0, 0, 0)
-    a = self.direction.dot(self.direction.dot)
-    b = 2 * self.direction.dot(sphere_to_ray)
-    c = sphere_to_ray.dot(sphere_to_ray)
+    sphere_to_ray = transformed_ray.origin - Tuple.point(0, 0, 0)
+    a = transformed_ray.direction.dot(transformed_ray.direction)
+    b = 2 * transformed_ray.direction.dot(sphere_to_ray)
+    c = sphere_to_ray.dot(sphere_to_ray) - 1
 
     # Calculate the discriminant
     discriminant = (b ** 2) - (4 * a * c)
@@ -55,7 +56,7 @@ class Ray:
       results.append(Intersection(t1, object))
 
       # If there were 2 intersections
-      if discriminant >= 1:
+      if discriminant > 0:
         # Add the second intersection
         t2 = (-b + math.sqrt(discriminant)) / (2 * a)
         results.append(Intersection(t2, object))
