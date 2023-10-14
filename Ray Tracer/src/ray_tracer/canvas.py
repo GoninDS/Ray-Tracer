@@ -1,6 +1,6 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-from colors import Color
+from ray_tracer.colors import Color
 
 class Canvas:
   # Default constructor
