@@ -159,12 +159,12 @@ def test_normal_transformed_sphere():
 def test_sphere_default_material():
   sphere = Sphere()
   m = sphere.material
-  expected = Materials()
+  expected = Material()
   assert m == expected
 
 def test_sphere_assigned_material():
   sphere = Sphere()
-  m = Materials()
+  m = Material()
   m.ambient = 1
   sphere.material = m
   assert m == sphere.material
