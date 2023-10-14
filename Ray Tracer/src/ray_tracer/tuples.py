@@ -1,13 +1,9 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
 import math
+import ray_tracer.common as common
 
 class Tuple:
-  # Epsilon constant for comparing two values
-  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
-  # redundancy
-  EPSILON = 0.00001
-
   # Default constructor
   def __init__(self, x = 0.0, y = 0.0, z = 0.0, w = 0.0):
     self.x = x
@@ -34,12 +30,11 @@ class Tuple:
     return '({}, {}, {}, {})'.format(self.x, self.y, self.z, self.w)
   
   # Checks if two tuples are equal in values
-  # TODO(Us): FIX THIS EQUAL BY CALLING OTHER
   def __eq__(self, other):
-    return self.equal(self.x, other.x) \
-      and self.equal(self.y, other.y) \
-      and self.equal(self.z, other.z) \
-      and self.equal(self.w, other.w)
+    return common.equal(self.x, other.x) \
+      and common.equal(self.y, other.y) \
+      and common.equal(self.z, other.z) \
+      and common.equal(self.w, other.w)
 
   # Addition of two tuples
   def __add__(self, other):
@@ -134,9 +129,3 @@ class Tuple:
   # Return if the tuple is a point
   def is_point(self):
     return self.w == 1
-  
-  # Checks if two values are basically the same
-  # TODO(Luis & Kenneth): Consider to bring this outside the class to reduce
-  # redundancy
-  def equal(self, first_value, second_value):
-    return abs(first_value - second_value) < self.EPSILON

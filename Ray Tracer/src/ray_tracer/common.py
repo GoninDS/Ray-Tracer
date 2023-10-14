@@ -1,3 +1,5 @@
+# Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
+
 # Define a constant for the EPSILON value
 EPSILON = 0.00001
 

@@ -4,7 +4,8 @@
 import pytest
 
 from math import sqrt
-from tuples import Tuple
+from ray_tracer.tuples import Tuple
+import ray_tracer.common as common
 
 def test_tuples_1(): 
   t1 = Tuple.point(4.3, -4.2, 3.1)
@@ -67,23 +68,23 @@ def test_tuples_dividing():
 
 def test_tuples_compute_magnitude():
   t1 = Tuple(1,0,0,0)
-  assert True == ( t1.equal(t1.magnitude(),1))
+  assert True == ( common.equal(t1.magnitude(),1))
 
 def test_tuples_compute_magnitude2():
   t1 = Tuple(0,1,0,0)
-  assert True == ( t1.equal(t1.magnitude(),1))   
+  assert True == ( common.equal(t1.magnitude(),1))   
   
 def test_tuples_compute_magnitude3():
   t1 = Tuple(0,0,1,0)
-  assert True == ( t1.equal(t1.magnitude(),1))  
+  assert True == ( common.equal(t1.magnitude(),1))  
   
 def test_tuples_compute_magnitude4():
   t1 = Tuple(1,2,3,0)
-  assert True == ( t1.equal(t1.magnitude(),sqrt(14)))   
+  assert True == ( common.equal(t1.magnitude(),sqrt(14)))   
   
 def test_tuples_compute_magnitude5():
   t1 = Tuple(-1,-2,-3,0)
-  assert True == ( t1.equal(t1.magnitude(),sqrt(14)))   
+  assert True == ( common.equal(t1.magnitude(),sqrt(14)))   
   
 def test_tuples_normalizing_vector():
   t1 = Tuple.vector(4,0,0)
@@ -98,7 +99,7 @@ def test_tuples_normalizing_vector2():
 def test_tuples_normalizing_vector3():
   t1 = Tuple.vector(1,2,3)
   normalized = t1.normalize()
-  assert True == (normalized.equal(1, normalized.magnitude()))  
+  assert True == (common.equal(1, normalized.magnitude()))  
   
 def test_tuples_dot_product_vectors():
   t1 = Tuple.vector(1,2,3)
