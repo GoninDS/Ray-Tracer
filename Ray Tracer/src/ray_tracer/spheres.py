@@ -2,6 +2,7 @@
 
 from ray_tracer.matrix import Matrix
 from ray_tracer.tuples import Tuple
+from ray_tracer.materials import Material
 
 class Sphere():
   # Variable to determine the next id
@@ -12,6 +13,7 @@ class Sphere():
     self.transform = Matrix(4, 4).identity()
     self.id = Sphere.next_id
     Sphere.next_id += 1
+    self.material = Material()
 
   # Debugging representation
   def __repr__(self):
