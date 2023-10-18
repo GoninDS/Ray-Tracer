@@ -34,7 +34,7 @@ class Canvas:
   # Modularize color case
   def init_color_case(self, color):
     # Translate the color to canvas format
-    color.translate_to_canvas()
+    color = color.translate_to_canvas()
     # Create an empty list to store the pixels
     self.pixels = []
     # Use nested list comprehensions to populate the 2D list
@@ -71,14 +71,14 @@ class Canvas:
   # Writes a pixel of the specificized color at the given coordinates
   def write_pixel(self, x, y, color):
     # Translate the color in a 255 range to store it
-    self.pixels[y][x] = color * 255
+    self.pixels[y][x] = color.translate_to_canvas()
 
   # Returns the color of the pixel at the given coordinates
   def pixel_at(self, x, y):
+    print(self.pixels[y][x])
     return self.pixels[y][x]
 
   # Writes a ppm file with the canvas using the specified filename
-  # TODO(Luis): Implement this
   def canvas_to_ppm(self, filename):
     # Open a file with the truncate option
     file = open(filename, 'w')
@@ -110,6 +110,8 @@ class Canvas:
         self.write_color(self.pixels[row][column].b, file)
       # Write a new line
       file.write('\n')
+      # Reset character counter
+      self.character_counter = 0
 
   def write_color(self, value, file):
     # Round the value to an integer
@@ -126,5 +128,7 @@ class Canvas:
       string_value = '\n' + string_value + ' '
       self.character_counter = len(string_value) + 1
     else:
+      # There is no overboard, leave a space
       string_value = string_value + ' '
+    # Write the contents to the file
     file.write(string_value)

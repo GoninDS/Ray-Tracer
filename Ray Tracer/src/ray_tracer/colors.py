@@ -19,16 +19,18 @@ class Color:
   def white():
     return Color(1.0, 1.0, 1.0)
 
-  # Translates from 0-1 to 0-255
+  # Returns a translated copy from 0-255
   def translate_to_canvas(self):
+    new_color = Color(0, 0, 0)
     # Call the translation function for the red value
-    self.r = Color.translate_value(self.r)
+    new_color.r = Color.translate_value(self.r)
     # Call the translation function for the green value    
-    self.g = Color.translate_value(self.g)
+    new_color.g = Color.translate_value(self.g)
     # Call the translation function for the blue value
-    self.b = Color.translate_value(self.b)
-    return self
+    new_color.b = Color.translate_value(self.b)
+    return new_color
 
+  # Translates the value from 0-255
   @staticmethod
   def translate_value(value):
     # If the value is less than permited
@@ -106,6 +108,10 @@ class Color:
   def scalar_multiplication(self, scalar):
     result = Color()
     result.r = self.r * scalar
+
+    print(self.r)
+    print(scalar)
+
     result.g = self.g * scalar
     result.b = self.b * scalar
     return result
