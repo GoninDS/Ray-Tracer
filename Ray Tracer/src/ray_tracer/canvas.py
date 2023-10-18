@@ -75,7 +75,6 @@ class Canvas:
 
   # Returns the color of the pixel at the given coordinates
   def pixel_at(self, x, y):
-    print(self.pixels[y][x])
     return self.pixels[y][x]
 
   # Writes a ppm file with the canvas using the specified filename
