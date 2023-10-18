@@ -107,7 +107,7 @@ class Color:
   # Scalar multiplication
   def scalar_multiplication(self, scalar):
     result = Color()
-    result.r = self.r * scalar=
+    result.r = self.r * scalar
     result.g = self.g * scalar
     result.b = self.b * scalar
     return result
