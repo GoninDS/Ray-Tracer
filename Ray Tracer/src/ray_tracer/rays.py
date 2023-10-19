@@ -3,7 +3,7 @@
 import math
 
 from ray_tracer.tuples import Tuple
-from ray_tracer.intersection import Intersection
+from ray_tracer.intersections import Intersection
 
 class Ray:
   # Default constructor

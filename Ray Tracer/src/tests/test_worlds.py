@@ -5,7 +5,7 @@ import pytest
 from ray_tracer.worlds import World
 from ray_tracer.rays import Ray
 from ray_tracer.spheres import Sphere
-from ray_tracer.intersection import Intersection
+from ray_tracer.intersections import Intersection
 from ray_tracer.computations import Computation
 from ray_tracer.tuples import Tuple
 from ray_tracer.colors import Color
@@ -25,15 +25,17 @@ def test_creating_default_world():
   light = Light.point_light(point, color)
 
   material = Material()
-  material_color = Color(0.8, 1.0, 0.6)
+  material.color = Color(0.8, 1.0, 0.6)
   material.diffuse = 0.7
   material.specular = 0.2
 
   s1 = Sphere()
   s1.material = material
+  s1.id = 0
 
   s2 = Sphere()
   s2.set_transform(Transformation.scaling(0.5, 0.5, 0.5))
+  s2.id = 1
 
   assert world.light == light
   assert s1 in world.objects

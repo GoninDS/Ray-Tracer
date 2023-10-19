@@ -9,11 +9,11 @@ class Sphere():
   next_id = 0
 
   # Default constructor
-  def __init__(self):
+  def __init__(self, material=Material()):
     self.transform = Matrix(4, 4).identity()
     self.id = Sphere.next_id
     Sphere.next_id += 1
-    self.material = Material()
+    self.material = material
 
   # Debugging representation
   def __repr__(self):
@@ -22,6 +22,12 @@ class Sphere():
   # String representation
   def __str__(self): 
     return '({}, {})'.format(self.transform, self.id)
+
+  # Returns a bool indicating is two spheres are equal
+  def __eq__(self, other):
+    return self.id == other.id and \
+    self.material == other.material and \
+    self.transform == other.transform
   
   # Method to transform the sphere
   def set_transform(self, transform_matrix): 

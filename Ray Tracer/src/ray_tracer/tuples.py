@@ -101,7 +101,6 @@ class Tuple:
     new_tuple.x = self.y * other.z - self.z * other.y
     new_tuple.y = self.z * other.x - self.x * other.z
     new_tuple.z = self.x * other.y - self.y * other.x
-    # TODO(Luis & Kenneth): Ask if cross product always results in vectors
     return new_tuple
 
   # Magnitude of a tuple  

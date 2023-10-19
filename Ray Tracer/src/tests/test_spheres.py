@@ -4,7 +4,7 @@
 import pytest
 from ray_tracer.rays import Ray
 from ray_tracer.spheres import Sphere
-from ray_tracer.intersection import Intersection
+from ray_tracer.intersections import Intersection
 from ray_tracer.transformations import Transformation
 from ray_tracer.tuples import Tuple
 from ray_tracer.materials import Material
