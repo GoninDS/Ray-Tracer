@@ -1,5 +1,8 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
+from ray_tracer.intersections import Intersection
+from ray_tracer.colors import Color
+
 class Computation():
   # Default constructor
   def __init__(self):
@@ -58,8 +61,18 @@ class Computation():
     return light.lighting(self.object.material, self.point,
       self.eyev, self.normalv)
 
-  # TODO(Luis & Kenneth): Implement this
-  # TODO(Kenneth): Idk if we should have this here
+  # Calculate the color of a certain point with a given ray
   @staticmethod
   def color_at(world, ray):
-    pass
+    # Calculate the intersections in the world
+    intersections = ray.intersect_world(world)
+    # Obtain the hit from the intersections
+    hit = Intersection.hit(intersections)
+    # If there is no intersection, return black
+    if hit is None:
+      return Color.black()
+    # If there is an intersection, calculate the values
+    else:
+      computation = Computation.prepare_computations(hit, ray)
+      return computation.shade_hit(world.light)
+  

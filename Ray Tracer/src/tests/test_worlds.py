@@ -31,11 +31,11 @@ def test_creating_default_world():
 
   s1 = Sphere()
   s1.material = material
-  s1.id = 0
+  s1.id = world.objects[0].id
 
   s2 = Sphere()
   s2.set_transform(Transformation.scaling(0.5, 0.5, 0.5))
-  s2.id = 1
+  s2.id = world.objects[1].id
 
   assert world.light == light
   assert s1 in world.objects
