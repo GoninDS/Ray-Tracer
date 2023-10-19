@@ -24,16 +24,13 @@ class Computation():
   def prepare_computations(intersection, ray):
     # Create a computations object
     comps = Computation()
-
     # Get the t and the object from the intersection
     comps.t = intersection.t
     comps.object = intersection.object
-
     # Calculate the point, eye vector and normal vector
     comps.point = ray.position(comps.t)
     comps.eyev = -ray.direction
     comps.normalv = comps.object.normal_at(comps.point)
-
     # If the dot product between the normal and the eye vector
     # is less than 0
     if comps.normalv.dot(comps.eyev) < 0:
@@ -44,7 +41,6 @@ class Computation():
     else:
       # The ray isnt inside the object
       comps.inside = False
-
     # Return the computations object
     return comps
 
@@ -57,10 +53,10 @@ class Computation():
         min = intersection
     return min
   
-  # TODO(Luis & Kenneth): Implement this
-  # TODO(Kenneth): Idk if we should have this here
-  def shade_hit(world):
-    pass
+  # Calculates the color taking into account the light
+  def shade_hit(self, light):
+    return light.lighting(self.object.material, self.point,
+      self.eyev, self.normalv)
 
   # TODO(Luis & Kenneth): Implement this
   # TODO(Kenneth): Idk if we should have this here
