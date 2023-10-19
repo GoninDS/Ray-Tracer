@@ -34,6 +34,12 @@ class Intersection():
     result.sort(key=Intersection.value_t)
     return result
 
+  # Orders all the intersections in a list
+  @staticmethod
+  def list_intersections(intersections):
+    intersections.sort(key=Intersection.value_t)
+    return intersections
+
   # Returns the hit from a list of intersections
   @staticmethod
   def hit(intersections):

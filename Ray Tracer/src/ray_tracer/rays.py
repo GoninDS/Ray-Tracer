@@ -40,13 +40,11 @@ class Ray:
     transformed_ray = self.transform(object.transform.inverse())
     # Create a list of intersections
     results =  []
-
     # Calculate a, b and c
     sphere_to_ray = transformed_ray.origin - Tuple.point(0, 0, 0)
     a = transformed_ray.direction.dot(transformed_ray.direction)
     b = 2 * transformed_ray.direction.dot(sphere_to_ray)
     c = sphere_to_ray.dot(sphere_to_ray) - 1
-
     # Calculate the discriminant
     discriminant = (b ** 2) - (4 * a * c)
     # If there are positive intersections
@@ -60,11 +58,16 @@ class Ray:
         # Add the second intersection
         t2 = (-b + math.sqrt(discriminant)) / (2 * a)
         results.append(Intersection(t2, object))
-
     # Return the list of intersections
     return results
   
-  # Returns all the intersections from the ray on the 
-  # TODO(Luis & Kenneth): Implement this
-  def intersect_world(world):
-    pass
+  # Returns all the intersections from the ray in the world
+  def intersect_world(self, world):
+    # Create an empty list of intersections
+    intersections = []
+    # Loop through all the objects on the world
+    for i in range(0, len(world.objects)):
+      # Obtain intersections with the current object
+      intersections.extend(self.intersect(world.objects[i]))
+    # Order the intersection list and return it
+    return Intersection.list_intersections(intersections)

@@ -37,13 +37,11 @@ class World:
     return new_world
   
   # Debuggin representation
-  # TODO(Luis & Kenneth): Implement this
   def __repr__(self):
     return 'World(Light({}, {}))'.format(self.light.position,
       self.light.intensity)
   
   # String representation
-  # TODO(Luis & Kenneth): Implement this
   def __str__(self):
     # Insert the light source
     to_str = 'Light({}, {})\n\n\nObjects:\n'.format(self.light.position,
