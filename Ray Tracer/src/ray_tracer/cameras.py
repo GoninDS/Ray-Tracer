@@ -11,7 +11,7 @@ class Camera:
     self.horizontal_size = horizontal_size
     self.vertical_size = vertical_size
     self.field_of_view = field_of_view
-    self.transformation_matrix = Matrix.identity()
+    self.transformation_matrix = Matrix(4, 4).identity()
     self.half_height = 0.0
     self.half_width = 0.0
     self.pixel_size = 0.0

@@ -20,18 +20,18 @@ def test_constructing_camera():
   field_of_view = math.pi/2 
   c = Camera(hsize, vsize, field_of_view)
   m = Matrix(4, 4)
-  assert common.equals(c.horizontal_size, hsize)
-  assert common.equals(c.vertical_size, vsize)
-  assert common.equals(c.field_of_view, field_of_view)
+  assert common.equal(c.horizontal_size, hsize)
+  assert common.equal(c.vertical_size, vsize)
+  assert common.equal(c.field_of_view, field_of_view)
   assert c.transformation_matrix == m.identity()
   
 def test_pixel_size_horizontal():
   c = Camera(200, 125, math.pi/2)
-  assert common.equals(c.pixel_size, 0.01) 
+  assert common.equal(c.pixel_size, 0.01) 
   
 def test_pixel_size_vertical():
   c = Camera(125, 200, math.pi/2)
-  assert common.equals(c.pixel_size, 0.01)  
+  assert common.equal(c.pixel_size, 0.01)  
   
 def test_ray_through_canvas_center(sample_camera):
   r = sample_camera.ray_for_pixel(100, 50)
