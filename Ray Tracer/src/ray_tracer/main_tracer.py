@@ -6,7 +6,7 @@ from ray_tracer.worlds import World
 from ray_tracer.spheres import Sphere
 from ray_tracer.materials import Material
 from ray_tracer.transformations import Transformation
-from ray_tracer.camera import Camera
+from ray_tracer.cameras import Camera
 import math
 
 def main():  

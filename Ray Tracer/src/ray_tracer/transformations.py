@@ -87,41 +87,41 @@ class Transformation():
     matrix[2][1] = z_in_y
     return matrix
 
-# Creates a matrix to transform the camera view
-@staticmethod
-def view_transform(origin_point, end_point, up_point):
-  # Get the forward direction
-  forward = (end_point - origin_point).normalize()
-  # Normalize the up point
-  up_point_normalized = up_point.normalize()
-  # Get the left direction
-  left = forward.cross(up_point_normalized)
-  # Get the true up
-  true_up_point = left.cross(forward)
+  # Creates a matrix to transform the camera view
+  @staticmethod
+  def view_transform(origin_point, end_point, up_point):
+    # Get the forward direction
+    forward = (end_point - origin_point).normalize()
+    # Normalize the up point
+    up_point_normalized = up_point.normalize()
+    # Get the left direction
+    left = forward.cross(up_point_normalized)
+    # Get the true up
+    true_up_point = left.cross(forward)
 
-  # Create the orientation matrix
-  orientation = Matrix(4, 4)
-  # First row
-  orientation[0][0] = left.x
-  orientation[0][1] = left.y
-  orientation[0][2] = left.z
-  orientation[0][3] = 0
-  # Second row
-  orientation[1][0] = true_up_point.x
-  orientation[1][1] = true_up_point.y
-  orientation[1][2] = true_up_point.z
-  orientation[1][3] = 0
-  # Third row
-  orientation[2][0] = -forward.x
-  orientation[2][1] = -forward.y
-  orientation[2][2] = -forward.z
-  orientation[2][3] = 0
-  # Fourth row
-  orientation[3][0] = 0
-  orientation[3][1] = 0
-  orientation[3][2] = 0
-  orientation[3][3] = 1
+    # Create the orientation matrix
+    orientation = Matrix(4, 4)
+    # First row
+    orientation[0][0] = left.x
+    orientation[0][1] = left.y
+    orientation[0][2] = left.z
+    orientation[0][3] = 0
+    # Second row
+    orientation[1][0] = true_up_point.x
+    orientation[1][1] = true_up_point.y
+    orientation[1][2] = true_up_point.z
+    orientation[1][3] = 0
+    # Third row
+    orientation[2][0] = -forward.x
+    orientation[2][1] = -forward.y
+    orientation[2][2] = -forward.z
+    orientation[2][3] = 0
+    # Fourth row
+    orientation[3][0] = 0
+    orientation[3][1] = 0
+    orientation[3][2] = 0
+    orientation[3][3] = 1
 
-  # Return the orientation applied on the origin
-  return orientation * Transformation.translation(-origin_point.x,
-    -origin_point.y, -origin_point.z)
+    # Return the orientation applied on the origin
+    return orientation * Transformation.translation(-origin_point.x,
+      -origin_point.y, -origin_point.z)
