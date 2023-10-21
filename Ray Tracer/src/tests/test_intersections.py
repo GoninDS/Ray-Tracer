@@ -4,8 +4,10 @@
 from ray_tracer.spheres import Sphere
 from ray_tracer.intersections import Intersection
 from ray_tracer.computations import Computation
+from ray_tracer.transformations import Transformation
 from ray_tracer.tuples import Tuple
 from ray_tracer.rays import Ray
+import ray_tracer.common as common
 
 def test_intersection_encapsulates_t():
   s1 = Sphere()
@@ -94,3 +96,12 @@ def test_hit_intersection_inside():
   assert comps.point == pointR
   assert comps.eyev == vectorR
   assert comps.normalv == vectorR
+
+def test_hit_should_offset_point():
+  r = Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1))
+  shape = Sphere()
+  shape.transform = Transformation.translation(0, 0, 1)
+  i = Intersection(5, shape)
+  comps = Computation.prepare_computations(i, r)
+  assert comps.over_point.z < -common.EPSILON/2
+  assert comps.point.z > comps.over_point.z

@@ -105,11 +105,6 @@ class Matrix:
     return new_matrix
 
   # Matrix-Tuple multiplication
-  # TODO(Kenneth): Ask Luis: "The materials says is with vectors
-  # but then uses a point as example?"
-  # TODO(Kenneth): Ask Luis: "i think we should also have this the other way
-  # around vector * self but idk how to implement it without multiple
-  # inclusion, help"
   def tuple_multiplication(self, tuple):
      # The matrix mut be valid and have exactly 4 columns
     if not self.is_valid() or len(self.mat[0]) != 4:
@@ -141,9 +136,6 @@ class Matrix:
     return new_tuple
 
   # Returns a submatrix
-  # TODO(Luis & Kenneth): Check if this could fail if is not valid
-  # also ask the teacher what is the submatrix of a matrix taking away
-  # columns and rows it does not have, the same or invalid?
   def submatrix(self, skipping_row, skipping_column):
     # Outside of the valid ranges
     if skipping_row >= len(self.mat) or skipping_column >= len(self.mat[0]):

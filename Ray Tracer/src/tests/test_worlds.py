@@ -67,7 +67,7 @@ def test_shading_intersection():
 
   i = Intersection(4, shape)
   comps = Computation.prepare_computations(i, ray)
-  c = comps.shade_hit(world.light)
+  c = comps.shade_hit(world)
   col = Color(0.38066, 0.47583, 0.2855)
   print(str(c))
   print(str(col))
@@ -89,7 +89,7 @@ def test_shading_intersection_inside():
 
   i = Intersection(0.5, shape)
   comps = Computation.prepare_computations(i, ray)
-  c = comps.shade_hit(world.light)
+  c = comps.shade_hit(world)
   col = Color(0.90498, 0.90498, 0.90498)
 
   assert c == col
@@ -134,3 +134,38 @@ def test_color_intersection_behind_ray():
   c = Computation.color_at(world, ray)
 
   assert c == inner.material.color
+
+def test_no_shadow_nothing_collinear_with_point_light():
+  world = World.default_world()
+  p = Tuple.point(0, 10, 0)
+  assert not world.is_shadowed(p)
+  
+def test_shadow_with_object_between_point_light():
+  world = World.default_world()
+  p = Tuple.point(10, -10, 10)
+  assert world.is_shadowed(p)
+  
+def test_no_shadow_with_object_behind_light():
+  world = World.default_world()
+  p = Tuple.point(-20, 20, -20)
+  assert not world.is_shadowed(p)
+  
+def test_no_shadow_with_object_behind_point():
+  world = World.default_world()
+  p = Tuple.point(-2, 2, -2)
+  assert not world.is_shadowed(p)
+  
+def test_shade_hit_given_intersection_in_shadow():
+  w = World()
+  l = Light.point_light(Tuple.point(0, 0, -10), Color(1, 1, 1))
+  w.light = l
+  s1 = Sphere()
+  w.objects.append(s1)
+  s2 = Sphere()
+  s2.transform = Transformation.translation(0, 0, 10)
+  w.objects.append(s2)
+  r = Ray(Tuple.point(0, 0, 5), Tuple.vector(0, 0, 1))
+  i = Intersection(4, s2)
+  comps = Computation.prepare_computations(i, r)
+  c = comps.shade_hit(w)
+  assert c == Color(0.1, 0.1, 0.1)

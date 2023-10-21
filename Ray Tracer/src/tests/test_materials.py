@@ -75,3 +75,13 @@ def test_light_behind_the_surface():
   expected_color = Color(0.1, 0.1, 0.1)
   result = light.lighting(m, position, eyev, normalv)
   assert result == expected_color
+
+def test_lighting_surface_in_shadow():
+  m = Material()
+  position = Tuple.point(0, 0, 0)
+  eyev = Tuple.vector(0, 0, -1)
+  normalv = Tuple.vector(0, 0, -1)
+  light = Light.point_light(Tuple.point(0, 0, -10), Color(1,1,1))
+  in_shadow = True
+  result = light.lighting(m, position, eyev, normalv, in_shadow)
+  assert result == Color(0.1, 0.1, 0.1)

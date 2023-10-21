@@ -2,10 +2,12 @@
 
 from ray_tracer.tuples import Tuple
 from ray_tracer.colors import Color
+from ray_tracer.rays import Ray
 from ray_tracer.lights import Light
 from ray_tracer.spheres import Sphere
 from ray_tracer.materials import Material
 from ray_tracer.transformations import Transformation
+from ray_tracer.intersections import Intersection
 
 class World:
   # Default constructor
@@ -36,7 +38,7 @@ class World:
     new_world.objects.append(second_sphere)
     return new_world
   
-  # Debuggin representation
+  # Debugging representation
   def __repr__(self):
     return 'World(Light({}, {}))'.format(self.light.position,
       self.light.intensity)
@@ -50,3 +52,22 @@ class World:
     for i in range(0, len(self.objects)):
       to_str += str(self.objects[i]) + '\n\n'
     return to_str
+
+  def is_shadowed(self, point):
+    # Get the unnormalized direction to the light
+    vector = self.light.position - point
+    # Calculate the distance and the direction to the light
+    distance = vector.magnitude()
+    direction = vector.normalize()
+    # Create a ray from the point to the light
+    ray = Ray(point, direction)
+    # Get the intersections from the point to the light
+    intersections = ray.intersect_world(self)
+    # Find the hit (The first intersection)
+    hit = Intersection.hit(intersections)
+    # Return true if there was at least one intersection
+    # between the point and the light
+    if hit is not None and hit.t < distance:
+      return True
+    # Return false if there was no intersection
+    return False

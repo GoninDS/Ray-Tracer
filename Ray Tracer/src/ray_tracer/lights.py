@@ -14,7 +14,7 @@ class Light:
   def point_light(position, intensity):
     return Light(position, intensity)
   
-  # Debuggin representation
+  # Debugging representation
   def __repr__(self):
     return 'Light(({}, {}, {}), ({}, {}, {}))'.format(
       self.position.x, self.position.y, self.position.z,
@@ -32,36 +32,55 @@ class Light:
       and self.intensity ==  other.intensity
   
   # Calculates the lightning on a point
-  def lighting(self, material, point, eyev, normalv):
+  def lighting(self, material, point, eyev, normalv, in_shadow=False):
+    # Create the lightning variable
+    lightning = Color.black()
+    # If it is not in the shadow
+    if in_shadow == False:
+      lightning = self.outside_shadow_case(material, point, eyev, normalv)
+    # If it is in the shadow
+    else:
+      lightning = self.inside_shadow_case(material)  
+    # Return the combination of all the lights
+    return lightning
+
+  # Calculates the lightning for the case outside the shadow
+  def outside_shadow_case(self, material, point, eyev, normalv):
     # Calculate the effective color
     effective_color = material.color * self.intensity
     # Calculate the light vector
     lightv = (self.position - point).normalize()
-
     # Calculate the ambient color
     ambient = effective_color * material.ambient
     # Start the diffuse and specular as black
     diffuse = Color.black()
     specular = Color.black()
-
     # Calculate the dot product between light vector normal vector
     light_dot_normal = lightv.dot(normalv)
-
     # If the dot product is more or equal than 0
     if light_dot_normal >= 0:
       # Calculate diffuse
       diffuse = effective_color * material.diffuse * light_dot_normal
-
       # Calculate the reflect vector and the dot product
       # between the reflect vector and eye vector
       reflectv = (-lightv).reflect(normalv)
       reflect_dot_eye = reflectv.dot(eyev)
-
-      # If the dor product is more than 0
+      # If the dot product is more than 0
       if reflect_dot_eye > 0:
         # Calculate the specular
         factor = reflect_dot_eye ** material.shininess
         specular = self.intensity * material.specular * factor
-    
-    # Return the combination of all the lights
+    # Returns the lightning
     return ambient + diffuse + specular
+
+  # Calculates the lightning for the case inside the shadow
+  def inside_shadow_case(self, material):
+    # Calculate the effective color
+    effective_color = material.color * self.intensity
+    # Calculate the ambient color
+    ambient = effective_color * material.ambient
+    # Returns the lightning
+    return ambient
+
+
+    

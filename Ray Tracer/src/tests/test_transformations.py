@@ -3,14 +3,15 @@
 
 import math
 import pytest
+from ray_tracer.matrix import Matrix
 from ray_tracer.transformations import Transformation  # Asumiendo que tienes una clase llamada 'Transformations' en un archivo llamado 'transformations.py'
 from ray_tracer.tuples import Tuple  # Asumiendo que tienes una clase llamada 'Tuple' para representar tuplas
 
 def test_multiplying_translation():
   p = Tuple.point(-3, 4, 5)
   expected = Tuple.point(2, 1, 7)
-  a = Transformation.translation(5, -3, 2)
-  result = a * p
+  t = Transformation.translation(5, -3, 2)
+  result = t * p
   assert result == expected
 
 def test_multiplying_translation_inverse():
@@ -163,3 +164,54 @@ def test_chained_transformations():
   T = C * B * A
   result = T * p
   assert result == expected1
+
+def test_transformation_matrix_default_orientation():
+  p_from = Tuple.point(0,0,0)
+  p_to = Tuple.point(0,0,-1)
+  p_up = Tuple.vector(0,1,0)
+  transformation_matrix = Transformation.view_transform(p_from, p_to, p_up)
+  assert transformation_matrix == transformation_matrix.identity()
+
+def test_view_transformation_positive_z():
+  p_from = Tuple.point(0,0,0)
+  p_to = Tuple.point(0,0,1)
+  p_up = Tuple.vector(0,1,0)
+  transformation_matrix = Transformation.view_transform(p_from, p_to, p_up)
+  assert transformation_matrix == Transformation.scaling(-1, 1, -1)
+  
+def test_view_transformation_moves_world():
+  p_from = Tuple.point(0,0,8)
+  p_to = Tuple.point(0,0,0)
+  p_up = Tuple.vector(0,1,0)
+  transformation_matrix = Transformation.view_transform(p_from, p_to, p_up)
+  assert transformation_matrix == Transformation.translation(0, 0, -8)
+
+def test_arbitrary_view_transformation():
+  p_from = Tuple.point(1, 3, 2)
+  p_to = Tuple.point(4, -2, 8)
+  p_up = Tuple.vector(1, 1, 0)
+  transformation_matrix = Transformation.view_transform(p_from, p_to, p_up)
+  
+  expected = Matrix(4, 4)
+  
+  expected[0][0] = -0.50709
+  expected[0][1] = 0.50709
+  expected[0][2] = 0.67612
+  expected[0][3] = -2.36643
+  
+  expected[1][0] = 0.76772
+  expected[1][1] = 0.60609
+  expected[1][2] = 0.12122
+  expected[1][3] = -2.82843
+  
+  expected[2][0] = -0.35857
+  expected[2][1] = 0.59761
+  expected[2][2] = -0.71714
+  expected[2][3] = 0.00000
+  
+  expected[3][0] = 0.00000
+  expected[3][1] = 0.00000
+  expected[3][2] = 0.00000
+  expected[3][3] = 1.00000
+  
+  assert transformation_matrix == expected
