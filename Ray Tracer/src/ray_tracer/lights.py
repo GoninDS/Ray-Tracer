@@ -33,16 +33,11 @@ class Light:
   
   # Calculates the lightning on a point
   def lighting(self, material, point, eyev, normalv, in_shadow=False):
-    # Create the lightning variable
-    lightning = Color.black()
     # If it is not in the shadow
     if in_shadow == False:
-      lightning = self.outside_shadow_case(material, point, eyev, normalv)
+      return self.outside_shadow_case(material, point, eyev, normalv)
     # If it is in the shadow
-    else:
-      lightning = self.inside_shadow_case(material)  
-    # Return the combination of all the lights
-    return lightning
+    return self.inside_shadow_case(material)
 
   # Calculates the lightning for the case outside the shadow
   def outside_shadow_case(self, material, point, eyev, normalv):

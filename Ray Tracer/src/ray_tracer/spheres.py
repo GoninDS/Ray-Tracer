@@ -9,10 +9,12 @@ class Sphere():
   next_id = 0
 
   # Default constructor
-  def __init__(self, material=Material()):
+  def __init__(self, material=None):
     self.transform = Matrix(4, 4).identity()
     self.id = Sphere.next_id
     Sphere.next_id += 1
+    if material is None:
+      material = Material()
     self.material = material
 
   # Debugging representation

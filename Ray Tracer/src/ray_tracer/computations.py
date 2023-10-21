@@ -2,6 +2,7 @@
 
 from ray_tracer.intersections import Intersection
 from ray_tracer.colors import Color
+import ray_tracer.common as common
 
 class Computation():
   # Default constructor
@@ -12,6 +13,7 @@ class Computation():
     self.point = None
     self.eyev = None
     self.normalv = None
+    self.over_point = None
 
   # Debugging representation
   def __repr__(self):
@@ -42,8 +44,10 @@ class Computation():
       comps.normalv = -comps.normalv
     # Otherwise
     else:
-      # The ray isnt inside the object
+      # The ray isn't inside the object
       comps.inside = False
+    # Calculate the over point
+    comps.over_point = comps.point + comps.normalv * common.EPSILON
     # Return the computations object
     return comps
 
@@ -60,7 +64,7 @@ class Computation():
   def shade_hit(self, world):
     shadowed = world.is_shadowed(self.over_point)
     return world.light.lighting(self.object.material, self.point,
-      self.eyev, self.normalv)
+      self.eyev, self.normalv, shadowed)
 
   # Calculate the color of a certain point with a given ray
   @staticmethod
@@ -75,5 +79,5 @@ class Computation():
     # If there is an intersection, calculate the values
     else:
       computation = Computation.prepare_computations(hit, ray)
-      return computation.shade_hit(world.light)
+      return computation.shade_hit(world)
   
