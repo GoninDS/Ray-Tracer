@@ -21,7 +21,7 @@ def main():
   floor.material = Material()
   floor.material.color = Color(1, 0.9, 0.9)
   floor.material.specular = 0
-    
+  
   left_wall = Sphere()
   left_wall.transform = Transformation.translation(0, 0, 5) * Transformation.rotation_y(-math.pi/4) * Transformation.rotation_x(math.pi/2) * Transformation.scaling(10, 0.01, 10)
   left_wall.material = floor.material
@@ -59,12 +59,12 @@ def main():
   world.objects.append(left)
 
   camera = Camera(300, 150, math.pi/3)
-  camera.transform = Transformation().view_transform(Tuple.point(0, 1.5, -5),
+  camera.transformation_matrix = Transformation.view_transform(Tuple.point(0, 1.5, -5),
     Tuple.point(0, 1, 0),
     Tuple.vector(0, 1, 0))
 
   canvas = camera.render(world)
-  canvas.canvas_to_ppm("purpleCircle2.ppm")
-   
+  canvas.canvas_to_ppm("purpleCircle2.ppm")  
+
 if __name__ == "__main__":
   main()
