@@ -5,6 +5,8 @@ from ray_tracer.matrix import Matrix
 from ray_tracer.computations import Computation
 from ray_tracer.tuples import Tuple
 from ray_tracer.rays import Ray
+from multiprocessing import Pool
+
 import math
 
 class Camera:
@@ -60,18 +62,26 @@ class Camera:
     direction = (pixel - origin).normalize()
     # Return the new ray
     return Ray(origin, direction)
+  
+  def process_pixel(self, canvas, world, x, y):
+    # Create a ray
+    ray = self.ray_for_pixel(x, y)
+    # Calculate the color
+    color = Computation.color_at(world, ray)
+    # Write the pixel on the canvas
+    canvas.write_pixel(x, y, color)
 
   def render(self, world):
     # Create a canvas using the dimensions of the camera
     image = Canvas(self.horizontal_size, self.vertical_size)
-    # For every coordinate on the camera
-    for y in range(0, self.vertical_size):
-      for x in range(0, self.horizontal_size):
-        # Create a ray
-        ray = self.ray_for_pixel(x, y)
-        # Calculate the color
-        color = Computation.color_at(world, ray)
-        # Write the pixel on the canvas
-        image.write_pixel(x, y, color)
+
+    # Create a Pool of processes with the desired number of processes
+    num_processes = 4  # Adjust this to your preference
+    with Pool(processes=num_processes) as pool:
+        # Use a list comprehension to create a list of tuples for the pixel coordinates
+        pixels = [(x, y) for y in range(self.vertical_size) for x in range(self.horizontal_size)]
+        # Map the process_pixel function to the list of pixel coordinates
+        pool.starmap(self.process_pixel, [(image, world, x, y) for x, y in pixels])
+
     # Return the canvas
     return image
