@@ -3,6 +3,7 @@
 from ray_tracer.colors import Color
 from ray_tracer.tuples import Tuple
 from ray_tracer.worlds import World
+from ray_tracer.lights import Light
 from ray_tracer.spheres import Sphere
 from ray_tracer.materials import Material
 from ray_tracer.transformations import Transformation
@@ -12,7 +13,7 @@ import math
 def main():  
   world = World()
     
-  world.light.point_light(Tuple.point(-10, 10, -10),
+  world.light = Light.point_light(Tuple.point(-10, 10, -10),
                             Color(1, 1, 1))
     
   floor = Sphere()
