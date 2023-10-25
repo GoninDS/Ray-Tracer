@@ -5,6 +5,7 @@ from ray_tracer.matrix import Matrix
 from ray_tracer.computations import Computation
 from ray_tracer.tuples import Tuple
 from ray_tracer.rays import Ray
+import math
 
 class Camera:
   def __init__(self, horizontal_size, vertical_size, field_of_view):
@@ -12,9 +13,25 @@ class Camera:
     self.vertical_size = vertical_size
     self.field_of_view = field_of_view
     self.transformation_matrix = Matrix(4, 4).identity()
-    self.half_height = 0.0
-    self.half_width = 0.0
-    self.pixel_size = 0.0
+    self.calculate_pixel_size()
+
+  def calculate_pixel_size(self):
+    # The width of half of the canvas can be computed by taking
+    # the tangent of half of the field of view
+    self.half_view = math.tan(self.field_of_view / 2)
+    # The aspect ratio of the horizontal size of the canvas
+    # relative to it's vertical size
+    self.aspect = self.horizontal_size / self.vertical_size
+    # If the aspect is wide
+    if self.aspect >= 1:
+      self.half_width = self.half_view
+      self.half_height = self.half_view / self.aspect
+    # If the aspect is elongated
+    else:
+      self.half_width = self.half_view * self.aspect
+      self.half_height = self.half_view
+    # Calculate the pixel size
+    self.pixel_size = (self.half_width * 2) / self.horizontal_size
 
   # Debugging representation
   def __repr__(self):
@@ -56,6 +73,5 @@ class Camera:
         color = Computation.color_at(world, ray)
         # Write the pixel on the canvas
         image.write_pixel(x, y, color)
-    
     # Return the canvas
     return image
