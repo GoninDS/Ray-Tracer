@@ -5,7 +5,7 @@ from ray_tracer.matrix import Matrix
 from ray_tracer.computations import Computation
 from ray_tracer.tuples import Tuple
 from ray_tracer.rays import Ray
-from multiprocessing import Pool
+from multiprocessing import Pool, Manager, cpu_count
 
 import math
 
@@ -63,25 +63,50 @@ class Camera:
     # Return the new ray
     return Ray(origin, direction)
   
-  def process_pixel(self, canvas, world, x, y):
+
+  @staticmethod
+  def process_pixel(camera, world, x, y, shared_data):
     # Create a ray
-    ray = self.ray_for_pixel(x, y)
+    ray = camera.ray_for_pixel(x, y)
     # Calculate the color
     color = Computation.color_at(world, ray)
-    # Write the pixel on the canvas
-    canvas.write_pixel(x, y, color)
 
-  def render(self, world):
+    # Update the shared data with pixel color
+    shared_data[(x, y)] = color
+
+  def render_parallel(self, world):
+    # Create a shared dictionary to store pixel data
+    shared_data = Manager().dict()
+
+    # Create a Pool of processes with the desired number of processes
+    with Pool(processes=cpu_count()) as pool:
+      # Use a list comprehension to create a list of tuples for the pixel coordinates
+      pixels = [(x, y) for y in range(self.vertical_size) for x in range(self.horizontal_size)]
+
+      # Map the process_pixel function to the list of pixel coordinates
+      pool.starmap(Camera.process_pixel, [(self, world, x, y, shared_data) for x, y in pixels])
+
     # Create a canvas using the dimensions of the camera
     image = Canvas(self.horizontal_size, self.vertical_size)
 
-    # Create a Pool of processes with the desired number of processes
-    num_processes = 4  # Adjust this to your preference
-    with Pool(processes=num_processes) as pool:
-        # Use a list comprehension to create a list of tuples for the pixel coordinates
-        pixels = [(x, y) for y in range(self.vertical_size) for x in range(self.horizontal_size)]
-        # Map the process_pixel function to the list of pixel coordinates
-        pool.starmap(self.process_pixel, [(image, world, x, y) for x, y in pixels])
+    # Convert the shared dictionary data into the final canvas
+    for (x, y), color in shared_data.items():
+      image.write_pixel(x, y, color)
 
+    # Return the canvas
+    return image
+  
+  def render(self, world):
+    # Create a canvas using the dimensions of the camera
+    image = Canvas(self.horizontal_size, self.vertical_size)
+    # For every coordinate on the camera
+    for y in range(0, self.vertical_size):
+      for x in range(0, self.horizontal_size):
+        # Create a ray
+        ray = self.ray_for_pixel(x, y)
+        # Calculate the color
+        color = Computation.color_at(world, ray)
+        # Write the pixel on the canvas
+        image.write_pixel(x, y, color)
     # Return the canvas
     return image
