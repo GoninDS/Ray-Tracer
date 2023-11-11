@@ -20,6 +20,9 @@ class Sphere(Shape):
   def __str__(self): 
     return '({}, {})'.format(self.transform, self.id)
 
+  def normal_at(self, world_point):
+    return super().normal_at(world_point)
+
   # Method to get the normal of the sphere at a specific point
   def local_normal_at(self, local_point):
     return local_point - Tuple.point(0, 0, 0)

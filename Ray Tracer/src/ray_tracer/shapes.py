@@ -3,7 +3,9 @@
 from ray_tracer.matrix import Matrix
 from ray_tracer.materials import Material
 
-class Shape():
+from abc import ABC, abstractmethod
+
+class Shape(ABC):
   # Variable to determine the next id
   next_id = 0
 
@@ -15,10 +17,6 @@ class Shape():
     if material is None:
       material = Material()
     self.material = material
-
-  @staticmethod
-  def test_default():
-    return Shape()
 
   # Debugging representation
   def __repr__(self):
@@ -46,10 +44,10 @@ class Shape():
     world_normal.w = 0
     return world_normal.normalize()
   
-  # Method to handle the normal implementation for the shape
+  @abstractmethod
   def local_normal_at(self, local_point):
-    local_point.w = 0
-    return local_point
+    pass
 
+  @abstractmethod
   def local_intersect(self, local_ray):
-    return local_ray
+    pass
