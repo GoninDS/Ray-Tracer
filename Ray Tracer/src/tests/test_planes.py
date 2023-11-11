@@ -37,7 +37,7 @@ def test_plane_above_intersection():
 
 def test_plane_below_intersection():
   p = Plane()
-  r = Ray(Tuple.point((0, -1, 0), Tuple.vector(0, 1, 0)))
+  r = Ray(Tuple.point(0, -1, 0), Tuple.vector(0, 1, 0))
   xs = p.local_intersect(r)
   assert len(xs) == 1 and \
          xs[0].t == 1 and \
