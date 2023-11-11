@@ -1,7 +1,6 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
 import math
-
 from ray_tracer.tuples import Tuple
 from ray_tracer.intersections import Intersection
 
@@ -38,28 +37,7 @@ class Ray:
   def intersect(self, object):
     # Get the transformed ray
     transformed_ray = self.transform(object.transform.inverse())
-    # Create a list of intersections
-    results =  []
-    # Calculate a, b and c
-    sphere_to_ray = transformed_ray.origin - Tuple.point(0, 0, 0)
-    a = transformed_ray.direction.dot(transformed_ray.direction)
-    b = 2 * transformed_ray.direction.dot(sphere_to_ray)
-    c = sphere_to_ray.dot(sphere_to_ray) - 1
-    # Calculate the discriminant
-    discriminant = (b ** 2) - (4 * a * c)
-    # If there are positive intersections
-    if discriminant >= 0:
-      # Add the first intersection
-      t1 = (-b - math.sqrt(discriminant)) / (2 * a)
-      results.append(Intersection(t1, object))
-
-      # If there were 2 intersections
-      if discriminant > 0:
-        # Add the second intersection
-        t2 = (-b + math.sqrt(discriminant)) / (2 * a)
-        results.append(Intersection(t2, object))
-    # Return the list of intersections
-    return results
+    return object.local_intersect(transformed_ray)
   
   # Returns all the intersections from the ray in the world
   def intersect_world(self, world):
