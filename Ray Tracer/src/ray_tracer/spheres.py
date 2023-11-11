@@ -2,9 +2,7 @@
 
 import math
 from ray_tracer.shapes import Shape
-from ray_tracer.matrix import Matrix
 from ray_tracer.tuples import Tuple
-from ray_tracer.materials import Material
 from ray_tracer.intersections import Intersection
 
 class Sphere(Shape):
@@ -19,9 +17,6 @@ class Sphere(Shape):
   # String representation
   def __str__(self): 
     return '({}, {})'.format(self.transform, self.id)
-
-  def normal_at(self, world_point):
-    return super().normal_at(world_point)
 
   # Method to get the normal of the sphere at a specific point
   def local_normal_at(self, local_point):
@@ -41,11 +36,11 @@ class Sphere(Shape):
     if discriminant >= 0:
       # Add the first intersection
       t1 = (-b - math.sqrt(discriminant)) / (2 * a)
-      results.append(Intersection(t1, object))
+      results.append(Intersection(t1, self))
       # If there were 2 intersections
       if discriminant > 0:
         # Add the second intersection
         t2 = (-b + math.sqrt(discriminant)) / (2 * a)
-        results.append(Intersection(t2, object))
+        results.append(Intersection(t2, self))
     # Return the list of intersections
     return results

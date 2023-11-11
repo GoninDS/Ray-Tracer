@@ -4,22 +4,22 @@ import ray_tracer.common as common
 
 class Intersection():
   # Default constructor
-  def __init__(self, t, object):
+  def __init__(self, t, shape):
     self.t = t
-    self.object = object
+    self.shape = shape
 
   # Debugging representation
   def __repr__(self):
-    return 'Intersection({}, {})'.format(self.t, self.object)
+    return 'Intersection({}, {})'.format(self.t, self.shape)
   
   # String representation
   def __str__(self): 
-    return '({}, {})'.format(self.t, self.object)
+    return '({}, {})'.format(self.t, self.shape)
   
   # Checks if two intersections are equal
   def __eq__(self, other):
     return common.equal(self.t, other.t) and \
-      self.object.id == other.object.id
+      self.shape.id == other.shape.id
   
   # Method to return the value of the t
   # Used for sorting

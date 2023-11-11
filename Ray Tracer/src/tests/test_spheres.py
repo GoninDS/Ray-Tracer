@@ -66,8 +66,8 @@ def test_object_on_intersection():
   sphere = Sphere()
   intersections = ray.intersect(sphere)
   assert len(intersections) == 2
-  assert intersections[0].object.id == sphere.id
-  assert intersections[1].object.id == sphere.id
+  assert intersections[0].shape.id == sphere.id
+  assert intersections[1].shape.id == sphere.id
 
 def test_default_transformation():
   sphere = Sphere()

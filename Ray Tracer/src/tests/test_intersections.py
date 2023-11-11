@@ -12,7 +12,7 @@ import ray_tracer.common as common
 def test_intersection_encapsulates_t():
   s1 = Sphere()
   inter = Intersection(3.5, s1)
-  assert inter.object.id == s1.id
+  assert inter.shape.id == s1.id
   assert inter.t == 3.5
 
 def test_aggregating_intersections():
@@ -69,7 +69,7 @@ def test_precomputing_state():
   pointR = Tuple.point(0, 0, -1)
   vectorR = Tuple.vector(0, 0, -1)
   assert comps.t == i.t
-  assert comps.object == i.object
+  assert comps.shape == i.shape
   assert comps.point == pointR
   assert comps.eyev == vectorR
   assert comps.normalv == vectorR

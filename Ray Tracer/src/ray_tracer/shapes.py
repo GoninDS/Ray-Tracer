@@ -36,7 +36,7 @@ class Shape(ABC):
   def set_transform(self, transform_matrix): 
     self.transform *= transform_matrix
 
-  # Method to get the normal of the sphere at a specific point
+  # Method to get the normal of the shape at an specific point
   def normal_at(self, world_point):
     local_point = self.transform.inverse() * world_point
     local_normal = self.local_normal_at(local_point)

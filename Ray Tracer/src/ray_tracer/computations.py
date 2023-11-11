@@ -9,7 +9,7 @@ class Computation():
   def __init__(self):
     self.t = 0
     self.inside = False
-    self.object = None
+    self.shape = None
     self.point = None
     self.eyev = None
     self.normalv = None
@@ -22,7 +22,7 @@ class Computation():
   # String representation
   def __str__(self): 
     return '({}, {}, {}, {}, {})'.format( \
-      self.t, self.object, self.point, self.eyev, self.normalv)
+      self.t, self.shape, self.point, self.eyev, self.normalv)
   
   # Returns a computations object
   @staticmethod
@@ -31,11 +31,11 @@ class Computation():
     comps = Computation()
     # Get the t and the object from the intersection
     comps.t = intersection.t
-    comps.object = intersection.object
+    comps.shape = intersection.shape
     # Calculate the point, eye vector and normal vector
     comps.point = ray.position(comps.t)
     comps.eyev = -ray.direction
-    comps.normalv = comps.object.normal_at(comps.point)
+    comps.normalv = comps.shape.normal_at(comps.point)
     # If the dot product between the normal and the eye vector
     # is less than 0
     if comps.normalv.dot(comps.eyev) < 0:
@@ -63,7 +63,7 @@ class Computation():
   # Calculates the color taking into account the light
   def shade_hit(self, world):
     shadowed = world.is_shadowed(self.over_point)
-    return world.light.lighting(self.object.material, self.point,
+    return world.light.lighting(self.shape.material, self.point,
       self.eyev, self.normalv, shadowed)
 
   # Calculate the color of a certain point with a given ray
