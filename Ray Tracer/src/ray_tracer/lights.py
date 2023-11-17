@@ -33,16 +33,20 @@ class Light:
   
   # Calculates the lightning on a point
   def lighting(self, material, point, eyev, normalv, in_shadow=False):
+    pattern_color = material.color
+    if material.pattern is not None:
+      pattern_color = material.pattern.stripe_at(point)
+
     # If it is not in the shadow
     if in_shadow == False:
-      return self.outside_shadow_case(material, point, eyev, normalv)
+      return self.outside_shadow_case(material, pattern_color, point, eyev, normalv)
     # If it is in the shadow
-    return self.inside_shadow_case(material)
+    return self.inside_shadow_case(material, pattern_color)
 
   # Calculates the lightning for the case outside the shadow
-  def outside_shadow_case(self, material, point, eyev, normalv):
+  def outside_shadow_case(self, material, pattern_color, point, eyev, normalv):
     # Calculate the effective color
-    effective_color = material.color * self.intensity
+    effective_color = pattern_color * self.intensity
     # Calculate the light vector
     lightv = (self.position - point).normalize()
     # Calculate the ambient color
@@ -69,9 +73,9 @@ class Light:
     return ambient + diffuse + specular
 
   # Calculates the lightning for the case inside the shadow
-  def inside_shadow_case(self, material):
+  def inside_shadow_case(self, material, pattern_color):
     # Calculate the effective color
-    effective_color = material.color * self.intensity
+    effective_color = pattern_color * self.intensity
     # Calculate the ambient color
     ambient = effective_color * material.ambient
     # Returns the lightning

@@ -27,6 +27,10 @@ class Pattern():
   def __str__(self): 
     return '({}, {})'.format(self.first_color, self.second_color)
   
+  def __eq__(self, other):
+    self.first_color == other.first_color and \
+    self.second_color == other.second_color
+
   # Returns a striped pattern of two colors
   @staticmethod
   def striped_pattern(first_color, second_color):
