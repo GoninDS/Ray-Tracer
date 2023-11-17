@@ -1,8 +1,6 @@
 # Copyright Luis Javier Campos Duarte
 # Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
 
-import pytest
-
 from math import sqrt
 from ray_tracer.tuples import Tuple
 import ray_tracer.common as common

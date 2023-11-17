@@ -1,7 +1,5 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-import pytest
-
 from ray_tracer.tuples import Tuple
 from ray_tracer.rays import Ray
 from ray_tracer.planes import Plane

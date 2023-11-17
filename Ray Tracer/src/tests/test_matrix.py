@@ -1,8 +1,6 @@
 # Copyright Luis Javier Campos Duarte
 # Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
 
-import pytest
-
 from ray_tracer.matrix import Matrix
 from ray_tracer.tuples import Tuple
 

@@ -1,7 +1,6 @@
 # Copyright Luis Javier Campos Duarte
 # Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
 
-import pytest
 from ray_tracer.worlds import World
 from ray_tracer.rays import Ray
 from ray_tracer.spheres import Sphere
