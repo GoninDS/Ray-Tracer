@@ -5,10 +5,6 @@ class Sample_shape(Shape):
   def __init__(self, material=None):
     super().__init__(material)
 
-  @staticmethod
-  def test_default():
-    return Sample_shape()
-
   # Debugging representation
   def __repr__(self):
     return 'Sample_shape()'
