@@ -35,7 +35,7 @@ class Light:
   def lighting(self, shape, point, eyev, normalv, in_shadow=False):
     pattern_color = shape.material.color
     if shape.material.pattern is not None:
-      pattern_color = shape.stripe_at(point)
+      pattern_color = shape.color_at(point)
 
     # If it is not in the shadow
     if in_shadow == False:

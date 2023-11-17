@@ -49,10 +49,10 @@ class Shape(ABC):
     return world_normal.normalize()
 
   # Method to get the color on a certain stripe on the shape
-  def stripe_at(self, world_point):
+  def color_at(self, world_point):
     local_point = self.transform.inverse() * world_point
     pattern_point = self.material.pattern.transform.inverse() * local_point
-    return self.material.pattern.stripe_at(pattern_point)
+    return self.material.pattern.color_at(pattern_point)
 
   # Classes that inherit must implement a method to calculate its normal
   @abstractmethod
