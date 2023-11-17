@@ -63,7 +63,7 @@ class Computation():
   # Calculates the color taking into account the light
   def shade_hit(self, world):
     shadowed = world.is_shadowed(self.over_point)
-    return world.light.lighting(self.shape.material, self.point,
+    return world.light.lighting(self.shape, self.point,
       self.eyev, self.normalv, shadowed)
 
   # Calculate the color of a certain point with a given ray

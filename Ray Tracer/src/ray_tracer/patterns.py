@@ -4,6 +4,7 @@ import math
 
 import ray_tracer.common as common
 from ray_tracer.colors import Color
+from ray_tracer.matrix import Matrix
 
 class Pattern():
     # Default constructor
@@ -18,6 +19,8 @@ class Pattern():
       self.second_color = Color.black()
     else:
       self.second_color = second_color
+    # Initializes its transformation matrix as the identity matrix
+    self.transform = Matrix(4, 4).identity()
 
   # Debugging representation
   def __repr__(self):

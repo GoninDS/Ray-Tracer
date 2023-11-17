@@ -36,18 +36,31 @@ class Shape(ABC):
   def set_transform(self, transform_matrix): 
     self.transform *= transform_matrix
 
-  # Method to get the normal of the shape at an specific point
+  # Method to transform the pattern of the sphere
+  def set_pattern_transform(self, transform_matrix): 
+    self.material.pattern.transform *= transform_matrix
+
+  # Metod to get the normal of the shape at an specific point
   def normal_at(self, world_point):
     local_point = self.transform.inverse() * world_point
     local_normal = self.local_normal_at(local_point)
     world_normal = self.transform.inverse().transposing() * local_normal
     world_normal.w = 0
     return world_normal.normalize()
-  
+
+  # Method to get the color on a certain stripe on the shape
+  def stripe_at(self, world_point):
+    local_point = self.transform.inverse() * world_point
+    pattern_point = self.material.pattern.transform.inverse() * local_point
+    return self.material.pattern.stripe_at(pattern_point)
+
+  # Classes that inherit must implement a method to calculate its normal
   @abstractmethod
   def local_normal_at(self, local_point):
     pass
 
+  # Classes that inherit must implement a method to calcule 
+  # their respective intersection
   @abstractmethod
   def local_intersect(self, local_ray):
     pass

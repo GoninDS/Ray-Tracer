@@ -32,16 +32,17 @@ class Light:
       and self.intensity ==  other.intensity
   
   # Calculates the lightning on a point
-  def lighting(self, material, point, eyev, normalv, in_shadow=False):
-    pattern_color = material.color
-    if material.pattern is not None:
-      pattern_color = material.pattern.stripe_at(point)
+  def lighting(self, shape, point, eyev, normalv, in_shadow=False):
+    pattern_color = shape.material.color
+    if shape.material.pattern is not None:
+      pattern_color = shape.stripe_at(point)
 
     # If it is not in the shadow
     if in_shadow == False:
-      return self.outside_shadow_case(material, pattern_color, point, eyev, normalv)
+      return self.outside_shadow_case(
+        shape.material, pattern_color, point, eyev, normalv)
     # If it is in the shadow
-    return self.inside_shadow_case(material, pattern_color)
+    return self.inside_shadow_case(shape.material, pattern_color)
 
   # Calculates the lightning for the case outside the shadow
   def outside_shadow_case(self, material, pattern_color, point, eyev, normalv):
