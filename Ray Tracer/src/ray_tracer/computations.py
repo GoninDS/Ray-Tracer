@@ -67,14 +67,21 @@ class Computation():
     return min
   
   # Calculates the color taking into account the light
-  def shade_hit(self, world):
+  def shade_hit(self, world, remaining_recursions = 4):
     shadowed = world.is_shadowed(self.over_point)
-    return world.light.lighting(self.shape, self.point,
+    surface =  world.light.lighting(self.shape, self.point,
       self.eyev, self.normalv, shadowed)
+    
+    if remaining_recursions != 0:
+      reflected = self.reflected_color(world, remaining_recursions)
+    else:
+      reflected = Color.black()
+
+    return surface + reflected
 
   # Calculate the color of a certain point with a given ray
   @staticmethod
-  def color_at(world, ray):
+  def color_at(world, ray, remaining_recursions = 4):
     # Calculate the intersections in the world
     intersections = ray.intersect_world(world)
     # Obtain the hit from the intersections
@@ -85,17 +92,19 @@ class Computation():
     # If there is an intersection, calculate the values
     else:
       computation = Computation.prepare_computations(hit, ray)
-      return computation.shade_hit(world)
+      return computation.shade_hit(world, remaining_recursions)
   
   # Method to calculate the color of the reflection
-  def reflected_color(self, world):
+  def reflected_color(self, world, remaining_recursions = 4):
     # If the material is partially reflective, return black
-    if self.shape.material.reflectiveness == 0:
+    if self.shape.material.reflectiveness == 0 or \
+      remaining_recursions <= 0:
       return Color.black()
     
     # Calculate the reflected ray
     reflected_ray = Ray(self.over_point, self.reflectv)
     # Get the color of the reflection
-    color = Computation.color_at(world, reflected_ray)
+    color = Computation.color_at(world, reflected_ray,
+                                 remaining_recursions - 1)
     # Return the color affected by the reflectiveness
     return color * self.shape.material.reflectiveness

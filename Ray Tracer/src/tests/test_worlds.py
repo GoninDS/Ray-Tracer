@@ -4,6 +4,7 @@
 from ray_tracer.worlds import World
 from ray_tracer.rays import Ray
 from ray_tracer.spheres import Sphere
+from ray_tracer.planes import Plane
 from ray_tracer.intersections import Intersection
 from ray_tracer.computations import Computation
 from ray_tracer.tuples import Tuple
@@ -11,6 +12,7 @@ from ray_tracer.colors import Color
 from ray_tracer.lights import Light
 from ray_tracer.materials import Material
 from ray_tracer.transformations import Transformation
+import math
 
 def test_creating_world():
   world = World()
@@ -170,11 +172,65 @@ def test_shade_hit_given_intersection_in_shadow():
   assert c == Color(0.1, 0.1, 0.1)
 
 def test_reflected_color_for_nonreflective_material():
-  w = World.default_world()
-  r = Ray(Tuple.point(0, 0, 0), Tuple.vector(0, 0, 1))
-  shape = w.objects[1]
+  world = World.default_world()
+  ray = Ray(Tuple.point(0, 0, 0), Tuple.vector(0, 0, 1))
+  shape = world.objects[1]
   shape.material.ambient = 1
-  i = Intersection.hit(r.intersect(shape))
-  comps = Computation.prepare_computations(i, r)
-  color = comps.reflected_color(w)
-  assert color == Color(0, 0, 0) 
+  intersection = Intersection.hit(ray.intersect(shape))
+  comps = Computation.prepare_computations(intersection, ray)
+  color = comps.reflected_color(world, 1)
+  assert color == Color(0, 0, 0)
+  
+def test_reflected_color_for_reflective_material():
+  world = World.default_world()
+  plane = Plane()
+  plane.material.reflectiveness = 0.5
+  plane.transform = Transformation.translation(0, -1, 0)
+  world.objects.append(plane)
+  ray = Ray(Tuple.point(0, 0, -3),
+          Tuple.vector(0, -math.sqrt(2)/2, math.sqrt(2)/2))
+  intersection = Intersection(math.sqrt(2), plane)
+  comps = Computation.prepare_computations(intersection, ray)
+  color = comps.reflected_color(world)
+  assert color == Color(0.19032, 0.2379, 0.14274)
+
+def test_shade_hit_with_reflective_material():
+  world = World.default_world()
+  plane = Plane()
+  plane.material.reflectiveness = 0.5
+  plane.transform = Transformation.translation(0, -1, 0)
+  world.objects.append(plane)
+  ray = Ray(Tuple.point(0, 0, -3),
+          Tuple.vector(0, -math.sqrt(2)/2, math.sqrt(2)/2))
+  intersection = Intersection(math.sqrt(2), plane)
+  comps = Computation.prepare_computations(intersection, ray)
+  color = comps.shade_hit(world, 5)
+  assert color == Color(0.87677, 0.92436, 0.82918)
+
+def test_color_at_with_reflective_material():
+  world = World()
+  world.light = Light.point_light(Tuple.point(9, 0, 0), Color(1, 1, 1))
+  lower = Plane()
+  lower.material.reflectiveness = 1
+  lower.transform = Transformation.translation(0, -1, 0)
+  world.objects.append(lower)
+  upper = Plane()
+  upper.material.reflectiveness = 1
+  upper.transform = Transformation.translation(0, 1, 0)
+  world.objects.append(upper)
+  ray = Ray(Tuple.point(0, 0, 0), Tuple.vector(0, 1, 0))
+  Computation.color_at(world, ray)
+  assert True
+
+def test_reflected_color_at_maximum_recursive_depth():
+  world = World.default_world()
+  shape = Plane()
+  shape.material.reflectiveness = 0.5
+  shape.transform = Transformation.translation(0, -1, 0)
+  world.objects.append(shape)
+  ray = Ray(Tuple.point(0, 0, -3),
+            Tuple.vector(0, -math.sqrt(2)/2, math.sqrt(2)/2))
+  intersection = Intersection(math.sqrt(2), shape)
+  comps = Computation.prepare_computations(intersection, ray)
+  color = comps.reflected_color(world, 0)
+  assert color == Color(0, 0, 0)
