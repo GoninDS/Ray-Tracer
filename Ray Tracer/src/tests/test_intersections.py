@@ -1,7 +1,10 @@
 # Copyright Luis Javier Campos Duarte
 # Modified by Luis David Solano Santamaría & Kenneth Daniel Villalobos Solís
 
+import math
+
 from ray_tracer.spheres import Sphere
+from ray_tracer.planes import Plane
 from ray_tracer.intersections import Intersection
 from ray_tracer.computations import Computation
 from ray_tracer.transformations import Transformation
@@ -105,3 +108,11 @@ def test_hit_should_offset_point():
   comps = Computation.prepare_computations(i, r)
   assert comps.over_point.z < -common.EPSILON/2
   assert comps.point.z > comps.over_point.z
+
+def test_precomputing_reflect_vector():
+  plane = Plane()
+  ray = Ray(Tuple.point(0, 1, -1),
+          Tuple.vector(0, -math.sqrt(2)/2, math.sqrt(2)/2))
+  intersection = Intersection(math.sqrt(2), plane)
+  comps = Computation.prepare_computations(intersection, ray)
+  assert comps.reflectv == Tuple.vector(0, math.sqrt(2)/2, math.sqrt(2)/2)

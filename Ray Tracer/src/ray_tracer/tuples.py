@@ -116,9 +116,9 @@ class Tuple:
     new_tuple /= magnitude
     return new_tuple
 
-  # Reflects a vector in based to the normal
-  def reflect(self, normal):
-    answer = self - normal * 2 * self.dot(normal)
+  # Reflects a vector in based to the normal vector
+  def reflect(self, normal_vector):
+    answer = self - normal_vector * 2 * self.dot(normal_vector)
     return answer
 
   # Returns if the tuple is a vector

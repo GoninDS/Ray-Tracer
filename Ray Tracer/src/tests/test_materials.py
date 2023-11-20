@@ -7,6 +7,10 @@ from ray_tracer.colors import Color
 from ray_tracer.lights import Light
 from ray_tracer.spheres import Sphere
 
+def test_reflective_material():
+  m = Material()
+  assert m.reflectiveness == 0.0
+
 def test_default_material():
   m = Material()
   color = Color(1, 1, 1)

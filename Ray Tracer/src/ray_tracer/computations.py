@@ -2,7 +2,9 @@
 
 from ray_tracer.intersections import Intersection
 from ray_tracer.colors import Color
+from ray_tracer.rays import Ray
 import ray_tracer.common as common
+
 
 class Computation():
   # Default constructor
@@ -13,6 +15,7 @@ class Computation():
     self.point = None
     self.eyev = None
     self.normalv = None
+    self.reflectv = None
     self.over_point = None
 
   # Debugging representation
@@ -21,8 +24,8 @@ class Computation():
   
   # String representation
   def __str__(self): 
-    return '({}, {}, {}, {}, {})'.format( \
-      self.t, self.shape, self.point, self.eyev, self.normalv)
+    return '({}, {}, {}, {}, {}, {})'.format( \
+      self.t, self.shape, self.point, self.eyev, self.normalv, self.reflectv)
   
   # Returns a computations object
   @staticmethod
@@ -46,6 +49,9 @@ class Computation():
     else:
       # The ray isn't inside the object
       comps.inside = False
+
+    # Calculate the reflect vector
+    comps.reflectv = ray.direction.reflect(comps.normalv)
     # Calculate the over point
     comps.over_point = comps.point + comps.normalv * common.EPSILON
     # Return the computations object
@@ -81,3 +87,15 @@ class Computation():
       computation = Computation.prepare_computations(hit, ray)
       return computation.shade_hit(world)
   
+  # Method to calculate the color of the reflection
+  def reflected_color(self, world):
+    # If the material is partially reflective, return black
+    if self.shape.material.reflectiveness == 0:
+      return Color.black()
+    
+    # Calculate the reflected ray
+    reflected_ray = Ray(self.over_point, self.reflectv)
+    # Get the color of the reflection
+    color = Computation.color_at(world, reflected_ray)
+    # Return the color affected by the reflectiveness
+    return color * self.shape.material.reflectiveness
