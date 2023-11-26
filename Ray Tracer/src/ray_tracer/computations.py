@@ -59,43 +59,39 @@ class Computation():
     
     # Calculate the refraction points
     if intersection_list is not None:
-      comps.calculate_n1_n2(intersection_list)
+      comps.calculate_n1_n2(intersection_list, intersection)
     # Return the computations object
     return comps
 
-  def calculate_n1_n2(self, intersection_list):
+  def calculate_n1_n2(self, intersection_list, current):
     # Create a list for the containers
     containers = []
-    # Calculate the hit
-    hit = Computation.hit(intersection_list)
     # For to move through all the intersections
-
     for i in range(len(intersection_list)):
-      # If the current intersection is the hit
-      if intersection_list[i] == hit:
+      # If the current intersection is the current
+      if intersection_list[i] == current:
         # Set 1.0 or the refractive index of
         # the object as n1
         if len(containers) == 0:
           self.n1 = 1.0
         else:
           self.n1 = containers[-1].material.refractive_index
-      
+        
       # If the shape was already in the container
       if intersection_list[i].shape in containers:
         containers.remove(intersection_list[i].shape)
       else:
         containers.append(intersection_list[i].shape)
       
-      # If the current intersection is the hit
-      if intersection_list[i] == hit:
+      # If the current intersection is the current
+      if intersection_list[i] == current:
         # Set 1.0 or the refractive index of
         # the object as n2
         if len(containers) == 0:
-          self.n1 = 1.0
+          self.n2 = 1.0
         else:
-          self.n1 = containers[-1].material.refractive_index
+          self.n2 = containers[-1].material.refractive_index
         return
-
 
   # Returns the hit from a list of intersections
   @staticmethod
@@ -131,7 +127,7 @@ class Computation():
       return Color.black()
     # If there is an intersection, calculate the values
     else:
-      computation = Computation.prepare_computations(hit, ray)
+      computation = Computation.prepare_computations(hit, ray, intersections)
       return computation.shade_hit(world, remaining_recursions)
   
   # Method to calculate the color of the reflection

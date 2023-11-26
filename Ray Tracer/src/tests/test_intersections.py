@@ -130,7 +130,7 @@ def test_find_various_intersections():
   ray = Ray(Tuple.point(0, 0, -4), Tuple.vector(0, 0, 1))
   xs = [Intersection(2, a), Intersection(2.75, b), Intersection(3.25, c),
         Intersection(4.75, b), Intersection(5.25, c), Intersection(6, a)]
-  
+
   comps_0 = Computation.prepare_computations(xs[0], ray, xs)
   comps_1 = Computation.prepare_computations(xs[1], ray, xs)
   comps_2 = Computation.prepare_computations(xs[2], ray, xs)
