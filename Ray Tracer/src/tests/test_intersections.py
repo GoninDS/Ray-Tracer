@@ -3,6 +3,7 @@
 
 import math
 
+from ray_tracer.worlds import World
 from ray_tracer.spheres import Sphere
 from ray_tracer.planes import Plane
 from ray_tracer.intersections import Intersection
@@ -10,6 +11,7 @@ from ray_tracer.computations import Computation
 from ray_tracer.transformations import Transformation
 from ray_tracer.tuples import Tuple
 from ray_tracer.rays import Ray
+from ray_tracer.colors import Color
 import ray_tracer.common as common
 
 def test_intersection_encapsulates_t():
@@ -145,7 +147,7 @@ def test_find_various_intersections():
     comps_4.n1 == 2.5 and comps_4.n2 == 1.5 and \
     comps_5.n1 == 1.5 and comps_5.n2 == 1.0
 
-def prepare_computations_calculates_under_point():
+def test_prepare_computations_calculates_under_point():
   ray = Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1))
   shape = Sphere.glass_sphere()
   shape.transform = Transformation.translation(0, 0, 1)
@@ -153,5 +155,52 @@ def prepare_computations_calculates_under_point():
   xs = []
   xs.append(intersection)
   comps = Computation.prepare_computations(intersection, ray, xs)
-  assert comps.under_point_z > common.EPSILON/2 and \
+  assert comps.under_point.z > common.EPSILON/2 and \
          comps.point.z < comps.under_point.z
+
+def test_schlick_aprox_under_internal_reflection():
+  shape = Sphere.glass_sphere()
+  ray = Ray(Tuple.point(0, 0, math.sqrt(2)/2), Tuple.vector(0, 1, 0))
+  xs = [Intersection(-math.sqrt(2)/2, shape),
+        Intersection(math.sqrt(2)/2, shape)]
+  comps = Computation.prepare_computations(xs[1], ray, xs)
+  reflectance = comps.schlick()
+  assert reflectance == 1.0
+
+def test_schlick_aprox_perpendicular_viewing_angle():
+  shape = Sphere.glass_sphere()
+  ray = Ray(Tuple.point(0, 0, 0), Tuple.vector(0, 1, 0))
+  xs = [Intersection(-1, shape), Intersection(1, shape)]
+  comps = Computation.prepare_computations(xs[1], ray, xs)
+  reflectance = comps.schlick()
+  assert common.equal(reflectance, 0.04)
+
+def test_schlick_approximation_with_small_angle_and_n2_bigger():
+  shape = Sphere.glass_sphere()
+  ray = Ray(Tuple.point(0, 0.99, -2), Tuple.vector(0, 0, 1))
+  xs = [Intersection(1.8589, shape)]
+  comps = Computation.prepare_computations(xs[0], ray, xs)
+  reflectance = comps.schlick()
+  assert common.equal(reflectance, 0.48873)
+
+def test_shade_hit_with_reflective_transparent_material():
+  world = World.default_world()
+  ray = Ray(Tuple.point(0, 0, -3),
+            Tuple.vector(0, -math.sqrt(2)/2, math.sqrt(2)/2))
+  floor = Plane()
+  floor.transform = Transformation.translation(0, -1, 0)
+  floor.material.reflectiveness = 0.5
+  floor.material.transparency = 0.5
+  floor.material.refractive_index = 1.5
+  world.objects.append(floor)
+
+  ball = Sphere()
+  ball.material.color = Color(1, 0, 0)
+  ball.material.ambient = 0.5
+  ball.transform = Transformation.translation(0, -3.5, -0.5)
+  world.objects.append(ball)
+
+  xs = [Intersection(math.sqrt(2), floor)]
+  comps = Computation.prepare_computations(xs[0], ray, xs)
+  color = comps.shade_hit(world, 5)
+  assert color == Color(0.93391, 0.69643, 0.69243)

@@ -122,6 +122,11 @@ class Computation():
       refracted = Color.black()
       reflected = Color.black()
 
+    material = self.shape.material
+    if material.reflectiveness > 0 and material.transparency > 0:
+      reflectance = self.schlick()
+      return surface + reflected * reflectance + refracted * (1 - reflectance)
+
     return surface + reflected + refracted
 
   # Calculate the color of a certain point with a given ray
@@ -176,3 +181,25 @@ class Computation():
       self.shape.material.transparency
 
     return color
+
+  def schlick(self):
+    # Find the cosine of the angle between
+    # the eye and normal vectors
+    cos = self.eyev.dot(self.normalv)
+
+    # Total internal reflection can only occur if n1 > n2
+    if self.n1 > self.n2:
+      n = self.n1 / self.n2
+      sin_t = n**2 * (1.0 - cos**2)
+
+      if sin_t > 1.0:
+        return 1.0
+
+      # Compute cosine of theta_t using trig identity
+      cos_t = math.sqrt(1.0 - sin_t)
+
+      # When n1 > n2, use cos(theta_t) instead
+      cos = cos_t
+    
+    r0 = ((self.n1 - self.n2) / (self.n1 + self.n2))**2
+    return r0 + (1 - r0) * (1 - cos)**5
