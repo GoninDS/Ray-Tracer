@@ -29,8 +29,8 @@ class Shape(ABC):
   # Returns a bool indicating is two shapes are equal
   def __eq__(self, other):
     return self.id == other.id and \
-    self.material == other.material and \
-    self.transform == other.transform
+      self.material == other.material and \
+      self.transform == other.transform
   
   # Method to transform the sphere
   def set_transform(self, transform_matrix): 

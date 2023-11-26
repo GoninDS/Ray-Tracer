@@ -116,3 +116,31 @@ def test_precomputing_reflect_vector():
   intersection = Intersection(math.sqrt(2), plane)
   comps = Computation.prepare_computations(intersection, ray)
   assert comps.reflectv == Tuple.vector(0, math.sqrt(2)/2, math.sqrt(2)/2)
+
+def test_find_various_intersections():
+  a = Sphere.glass_sphere()
+  a.transform = Transformation.scaling(2, 2, 2)
+  b = Sphere.glass_sphere()
+  b.transform = Transformation.translation(0, 0, -0.25)
+  b.material.refractive_index = 2.0
+  c = Sphere.glass_sphere()
+  c.transform = Transformation.translation(0, 0, 0.25)
+  c.material.refractive_index = 2.5
+
+  ray = Ray(Tuple.point(0, 0, -4), Tuple.vector(0, 0, 1))
+  xs = [Intersection(2, a), Intersection(2.75, b), Intersection(3.25, c),
+        Intersection(4.75, b), Intersection(5.25, c), Intersection(6, a)]
+  
+  comps_0 = Computation.prepare_computations(xs[0], ray, xs)
+  comps_1 = Computation.prepare_computations(xs[1], ray, xs)
+  comps_2 = Computation.prepare_computations(xs[2], ray, xs)
+  comps_3 = Computation.prepare_computations(xs[3], ray, xs)
+  comps_4 = Computation.prepare_computations(xs[4], ray, xs)
+  comps_5 = Computation.prepare_computations(xs[5], ray, xs)
+
+  assert comps_0.n1 == 1.0 and comps_0.n2 == 1.5 and \
+    comps_1.n1 == 1.5 and comps_1.n2 == 2.0 and \
+    comps_2.n1 == 2.0 and comps_2.n2 == 2.5 and \
+    comps_3.n1 == 2.5 and comps_3.n2 == 2.5 and \
+    comps_4.n1 == 2.5 and comps_4.n2 == 1.5 and \
+    comps_5.n1 == 1.5 and comps_5.n2 == 1.0

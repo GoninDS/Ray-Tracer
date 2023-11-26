@@ -2,6 +2,7 @@
 
 import math
 from ray_tracer.shapes import Shape
+from ray_tracer.matrix import Matrix
 from ray_tracer.tuples import Tuple
 from ray_tracer.intersections import Intersection
 
@@ -9,6 +10,15 @@ class Sphere(Shape):
   # Default constructor
   def __init__(self, material=None):
     super().__init__(material)
+
+  # Creates a glass sphere
+  @staticmethod
+  def glass_sphere():
+    sphere = Sphere()
+    sphere.transform = Matrix(4, 4).identity()
+    sphere.material.transparency = 1.0
+    sphere.material.refractive_index = 1.5
+    return sphere
 
   # Debugging representation
   def __repr__(self):

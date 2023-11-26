@@ -19,7 +19,7 @@ class Intersection():
   # Checks if two intersections are equal
   def __eq__(self, other):
     return common.equal(self.t, other.t) and \
-      self.shape.id == other.shape.id
+      self.shape == other.shape
   
   # Method to return the value of the t
   # Used for sorting

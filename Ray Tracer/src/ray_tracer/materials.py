@@ -6,6 +6,7 @@ class Material():
   # Default constructor
   def __init__(self, color = Color(1, 1, 1), ambient = 0.1,
     diffuse = 0.9, specular = 0.9, shininess = 200.0, reflectiveness = 0.0,
+    transparency = 0.0, refractive_index = 1.0,
     pattern = None):
     self.color = color
     self.ambient = ambient
@@ -13,6 +14,8 @@ class Material():
     self.specular = specular
     self.shininess = shininess
     self.reflectiveness = reflectiveness
+    self.transparency = transparency
+    self.refractive_index = refractive_index
     self.pattern = pattern
 
   # Debugging representation
@@ -21,9 +24,10 @@ class Material():
   
   # String representation
   def __str__(self): 
-    return '({}, {}, {}, {}, {}, {}, {})'.format( \
+    return '({}, {}, {}, {}, {}, {}, {}, {}, {})'.format( \
       self.color, self.ambient, self.diffuse, self.specular, self.shininess,
-      self.reflectiveness, self.pattern)
+      self.reflectiveness, self.transparency, self.refractive_index,
+      self.pattern)
   
   # Checks if two materials are equal
   def __eq__(self, other):
@@ -33,4 +37,6 @@ class Material():
       self.specular == other.specular and \
       self.shininess == other.shininess and \
       self.reflectiveness == other.reflectiveness and \
+      self.transparency == other.transparency and \
+      self.refractive_index == other.refractive_index and \
       self.pattern == other.pattern

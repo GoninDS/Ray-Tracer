@@ -5,13 +5,14 @@ from ray_tracer.colors import Color
 from ray_tracer.rays import Ray
 import ray_tracer.common as common
 
-
 class Computation():
   # Default constructor
   def __init__(self):
     self.t = 0
     self.inside = False
     self.shape = None
+    self.n1 = None
+    self.n2 = None
     self.point = None
     self.eyev = None
     self.normalv = None
@@ -24,12 +25,13 @@ class Computation():
   
   # String representation
   def __str__(self): 
-    return '({}, {}, {}, {}, {}, {})'.format( \
-      self.t, self.shape, self.point, self.eyev, self.normalv, self.reflectv)
+    return '({}, {}, {}, {}, {}, {}, {}, {})'.format( \
+      self.t, self.shape, self.n1, self.n2, self.point, self.eyev,
+      self.normalv, self.reflectv)
   
   # Returns a computations object
   @staticmethod
-  def prepare_computations(intersection, ray):
+  def prepare_computations(intersection, ray, intersection_list = None):
     # Create a computations object
     comps = Computation()
     # Get the t and the object from the intersection
@@ -54,8 +56,46 @@ class Computation():
     comps.reflectv = ray.direction.reflect(comps.normalv)
     # Calculate the over point
     comps.over_point = comps.point + comps.normalv * common.EPSILON
+    
+    # Calculate the refraction points
+    if intersection_list is not None:
+      comps.calculate_n1_n2(intersection_list)
     # Return the computations object
     return comps
+
+  def calculate_n1_n2(self, intersection_list):
+    # Create a list for the containers
+    containers = []
+    # Calculate the hit
+    hit = Computation.hit(intersection_list)
+    # For to move through all the intersections
+
+    for i in range(len(intersection_list)):
+      # If the current intersection is the hit
+      if intersection_list[i] == hit:
+        # Set 1.0 or the refractive index of
+        # the object as n1
+        if len(containers) == 0:
+          self.n1 = 1.0
+        else:
+          self.n1 = containers[-1].material.refractive_index
+      
+      # If the shape was already in the container
+      if intersection_list[i].shape in containers:
+        containers.remove(intersection_list[i].shape)
+      else:
+        containers.append(intersection_list[i].shape)
+      
+      # If the current intersection is the hit
+      if intersection_list[i] == hit:
+        # Set 1.0 or the refractive index of
+        # the object as n2
+        if len(containers) == 0:
+          self.n1 = 1.0
+        else:
+          self.n1 = containers[-1].material.refractive_index
+        return
+
 
   # Returns the hit from a list of intersections
   @staticmethod
