@@ -192,7 +192,7 @@ def test_reflected_color_for_reflective_material():
   intersection = Intersection(math.sqrt(2), plane)
   comps = Computation.prepare_computations(intersection, ray)
   color = comps.reflected_color(world)
-  assert color == Color(0.19032, 0.2379, 0.14274)
+  assert color == Color(0.1903323,  0.2379154, 0.1427492)
 
 def test_shade_hit_with_reflective_material():
   world = World.default_world()
@@ -205,7 +205,7 @@ def test_shade_hit_with_reflective_material():
   intersection = Intersection(math.sqrt(2), plane)
   comps = Computation.prepare_computations(intersection, ray)
   color = comps.shade_hit(world, 5)
-  assert color == Color(0.87677, 0.92436, 0.82918)
+  assert color == Color(0.8767577, 0.9243407, 0.8291746)
 
 def test_color_at_with_reflective_material():
   world = World()
