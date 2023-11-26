@@ -1,5 +1,7 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
+import math
+
 from ray_tracer.intersections import Intersection
 from ray_tracer.colors import Color
 from ray_tracer.rays import Ray
@@ -18,6 +20,7 @@ class Computation():
     self.normalv = None
     self.reflectv = None
     self.over_point = None
+    self.under_point = None
 
   # Debugging representation
   def __repr__(self):
@@ -54,9 +57,10 @@ class Computation():
 
     # Calculate the reflect vector
     comps.reflectv = ray.direction.reflect(comps.normalv)
-    # Calculate the over point
+    # Calculate the over and point
     comps.over_point = comps.point + comps.normalv * common.EPSILON
-    
+    comps.under_point = comps.point - comps.normalv * common.EPSILON
+
     # Calculate the refraction points
     if intersection_list is not None:
       comps.calculate_n1_n2(intersection_list, intersection)
@@ -110,10 +114,15 @@ class Computation():
     
     if remaining_recursions != 0:
       reflected = self.reflected_color(world, remaining_recursions)
+      if self.n1 is not None and self.n2 is not None:
+        refracted = self.refracted_color(world, remaining_recursions)
+      else:
+        refracted = Color.black()
     else:
+      refracted = Color.black()
       reflected = Color.black()
 
-    return surface + reflected
+    return surface + reflected + refracted
 
   # Calculate the color of a certain point with a given ray
   @staticmethod
@@ -144,3 +153,26 @@ class Computation():
                                  remaining_recursions - 1)
     # Return the color affected by the reflectiveness
     return color * self.shape.material.reflectiveness
+  
+  # Method to calculate the color of the refraction
+  def refracted_color(self, world, remaining_recursions = 4):
+    # Find the ratio of the first index of refraction
+    n_ratio = self.n1*1.0 / self.n2*1.0
+    # Cos theta_i is the same as the dot product of two vectors
+    cos_i = self.eyev.dot(self.normalv)
+    # Find sin(theta)^2 via trigonometric identity
+    sin_t = n_ratio**2 * (1 - (cos_i**2))
+    # If the material is not transparent, return black
+    if self.shape.material.transparency == 0 or \
+      remaining_recursions <= 0 or sin_t > 1:
+      return Color.black()
+    # Compute the direction of the refracted ray
+    cos_t = math.sqrt(1.0 - sin_t)
+    direction = self.normalv * (n_ratio * cos_i - cos_t) - self.eyev * n_ratio
+    # Create the refracted ray
+    refract_ray = Ray(self.under_point, direction)
+    color = Computation.color_at(
+      world, refract_ray, remaining_recursions - 1) * \
+      self.shape.material.transparency
+
+    return color

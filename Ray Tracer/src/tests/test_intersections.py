@@ -144,3 +144,14 @@ def test_find_various_intersections():
     comps_3.n1 == 2.5 and comps_3.n2 == 2.5 and \
     comps_4.n1 == 2.5 and comps_4.n2 == 1.5 and \
     comps_5.n1 == 1.5 and comps_5.n2 == 1.0
+
+def prepare_computations_calculates_under_point():
+  ray = Ray(Tuple.point(0, 0, -5), Tuple.vector(0, 0, 1))
+  shape = Sphere.glass_sphere()
+  shape.transform = Transformation.translation(0, 0, 1)
+  intersection = Intersection(5, shape)
+  xs = []
+  xs.append(intersection)
+  comps = Computation.prepare_computations(intersection, ray, xs)
+  assert comps.under_point_z > common.EPSILON/2 and \
+         comps.point.z < comps.under_point.z
