@@ -2,7 +2,6 @@
 
 import math
 from ray_tracer.shapes import Shape
-from ray_tracer.matrix import Matrix
 from ray_tracer.tuples import Tuple
 from ray_tracer.intersections import Intersection
 import ray_tracer.common as common
@@ -16,7 +15,7 @@ class Cube(Shape):
   def __repr__(self):
     return 'Cube()'
 
-  # Method to get the normal of the sphere at a specific point
+  # Method to get the normal of the cube at a specific point
   def local_normal_at(self, local_point):
     # Get the component with the highest value
     max_component = max(abs(local_point.x),
@@ -29,6 +28,7 @@ class Cube(Shape):
       return Tuple.vector(0, local_point.y, 0)
     return Tuple.vector(0, 0, local_point.z)
 
+  # Method to intersect a cube with a ray
   def local_intersect(self, local_ray):
     # Get the min and max t values on all the axis of the cube
     x_t_values = Cube.check_axis(local_ray.origin.x, local_ray.direction.x)
@@ -49,6 +49,7 @@ class Cube(Shape):
     # Return the list of intersections
     return [Intersection(t_min, self), Intersection(t_max, self)]
   
+  # Method to get min and max of each axis
   @staticmethod
   def check_axis(point, direction):
     # Calculate the offset

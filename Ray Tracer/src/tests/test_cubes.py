@@ -4,10 +4,6 @@ import pytest
 from ray_tracer.cubes import Cube
 from ray_tracer.rays import Ray
 from ray_tracer.tuples import Tuple
-from ray_tracer.transformations import Transformation
-from ray_tracer.worlds import World
-from ray_tracer.colors import Color
-import ray_tracer.common as common
 
 def test_ray_intersects_cube():
   cube = Cube()
