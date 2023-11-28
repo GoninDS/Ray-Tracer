@@ -24,7 +24,7 @@ class Shape(ABC):
   
   # String representation
   def __str__(self): 
-    return '({}, {})'.format(self.transform, self.id)
+    return '({}, {}, {})'.format(self.transform, self.id, self.material)
 
   # Returns a bool indicating is two shapes are equal
   def __eq__(self, other):
