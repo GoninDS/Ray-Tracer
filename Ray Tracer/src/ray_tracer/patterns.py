@@ -1,7 +1,5 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-import math
-
 import ray_tracer.common as common
 from ray_tracer.colors import Color
 from ray_tracer.matrix import Matrix

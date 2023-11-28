@@ -1,6 +1,5 @@
 # Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
-import math
 from ray_tracer.tuples import Tuple
 from ray_tracer.intersections import Intersection
 

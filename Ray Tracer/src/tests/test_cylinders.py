@@ -1,12 +1,8 @@
-import math
-import pytest
+# Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
 from ray_tracer.cylinders import Cylinder
 from ray_tracer.rays import Ray
 from ray_tracer.tuples import Tuple
-from ray_tracer.transformations import Transformation
-from ray_tracer.worlds import World
-from ray_tracer.colors import Color
 import ray_tracer.common as common
 
 def test_ray_misses_cylinder():

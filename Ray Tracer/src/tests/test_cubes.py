@@ -1,5 +1,4 @@
-import math
-import pytest
+# Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
 
 from ray_tracer.cubes import Cube
 from ray_tracer.rays import Ray

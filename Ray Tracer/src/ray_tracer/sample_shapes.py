@@ -1,3 +1,5 @@
+# Copyright 2023 Luis David Solano Santamaría, Kenneth Daniel Villalobos Solís
+
 from ray_tracer.shapes import Shape
 
 class Sample_shape(Shape):
