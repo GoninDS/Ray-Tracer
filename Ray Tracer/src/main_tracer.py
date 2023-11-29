@@ -12,6 +12,13 @@ from ray_tracer.gradient_patterns import Gradient_pattern
 from ray_tracer.checkers_patterns import Checkers_pattern
 from ray_tracer.transformations import Transformation
 from ray_tracer.cameras import Camera
+from ray_tracer.checkers_patterns import Checkers_pattern
+from ray_tracer.cubes import Cube
+from ray_tracer.planes import Plane
+from ray_tracer.striped_patterns import Striped_pattern
+from ray_tracer.ring_patterns import Ring_pattern
+from ray_tracer.cylinders import Cylinder
+
 import math
 
 
@@ -184,9 +191,9 @@ def light_test():
   canvas = camera.render_parallel(world)
   canvas.canvas_to_ppm("purple_light_test.ppm")
 
-def space():  
+def space():
   world = World()
-    
+
   world.light = Light.point_light(Tuple.point(-100, 100, -100),
                             Color(1, 1, 1))
     
@@ -214,192 +221,5 @@ def space():
   canvas = camera.render_parallel(world)
   canvas.canvas_to_ppm("space_big22.ppm")
 
-def space2():  
-  world = World()
-    
-  world.light = Light.point_light(Tuple.point(-50, 100, -100),
-                            Color(1, 1, 1))
-    
-  earth = Sphere()
-  earth.transform = Transformation.translation(-0.5, -1, 0.5) * Transformation.scaling(2, 2, 2)
-  earth.material = Material(Color(0.19, 0.40, 0.91), 0, 0.9, 0, 300)
-  earth.material.pattern = Striped_pattern(Color(0.04, 0.37, 0.04), Color(0.19, 0.40, 0.91))
-  earth.material.pattern.transform = Transformation.translation(0.1, 0.9, 0.04) * Transformation.shearing(0.8, 0, 1, 1, 0, 0) * Transformation.scaling(3, 0.4, 0.8)
-
-  mars = Sphere()
-  mars.transform = Transformation.translation(-4, 1, 5) * Transformation.scaling(1.4, 1.4, 1.4)
-  mars.material = Material(Color(0.82, 0.41, 0.12), 0, 1, 0, 300)
-  mars.material.pattern = Gradient_pattern(Color(0.76, 0.50, 0.24), Color(0.82, 0.41, 0.12))
-  mars.material.pattern.transform = Transformation.scaling(0.6, 0.2, 0.2)
-
-  saturn = Sphere()
-  saturn.transform = Transformation.translation(0, 3, 30) * Transformation.scaling(1.4, 1.4, 1.4)
-  saturn.material = Material(Color(0.71, 0.16, 0.89), 0.1, 0.8, 0, 300)
-  saturn.material.pattern = Gradient_pattern(Color(0.71, 0.16, 0.89), Color(0.28, 0.93, 0.68))
-  saturn.material.pattern.transform = Transformation.scaling(0.1, 0.7, 0.01)
-  saturn_ring1 = Cylinder()
-  saturn_ring1.closed = True
-  saturn_ring1.minimum = 1
-  saturn_ring1.maximum = 2
-  saturn_ring1.transform = Transformation.translation(0.1, 3, 30) * Transformation.scaling(3, 0.05, 3)
-  saturn_ring1.material = Material(Color(0.99, 0.98, 0.68), 0, 1, 1, 50)
-  saturn_ring1.material.transparency = 1
-  saturn_ring1.material.refractive_index = 1
-  
-  moon = Sphere()
-  moon.transform = Transformation.translation(4, 0, 8) * Transformation.scaling(2, 2, 2)
-  moon.material = Material(Color(0.33, 0.33, 0.33), 0, 1, 0, 0)
-  moon.material.pattern = Checkers_pattern(Color(0.12, 0.12, 0.12), Color(0.33, 0.33, 0.33))
-  moon.material.pattern.transform = Transformation.scaling(0.01, 0.01, 0.01)
-  
-  world.objects.append(earth)
-  world.objects.append(mars)
-  world.objects.append(saturn)
-  world.objects.append(saturn_ring1)
-  world.objects.append(moon)
-
-  camera = Camera(900, 450, math.pi/3)
-  camera.transformation_matrix = Transformation.view_transform(Tuple.point(0, 1.5, -5),
-    Tuple.point(0, 1, 0),
-    Tuple.vector(0, 1, 0))
-
-  canvas = camera.render_parallel(world)
-  canvas.canvas_to_ppm("space_big24.ppm")  
-
-def pikachu2():  
-  world = World()
-    
-  world.light = Light.point_light(Tuple.point(-10, 10, -10),
-                            Color(1, 1, 1))
-    
-  floor = Sphere()
-  floor.transform = Transformation.scaling(10, 0.01, 10)
-  floor.material = Material()
-  floor.material.color = Color(0.2, 0.8, 0.2)
-  floor.material.specular = 0
-  
-  left_wall = Sphere()
-  left_wall.transform = Transformation.translation(0, 0, 5) * Transformation.rotation_y(-math.pi/4) * Transformation.rotation_x(math.pi/2) * Transformation.scaling(10, 0.01, 10)
-  left_wall.material = Material(Color(0.68, 0.85, 0.9), 1, 0, 0, 200)
-    
-  right_wall = Sphere()
-  right_wall.transform = Transformation.translation(0, 0, 5) * Transformation.rotation_y(math.pi/4) * Transformation.rotation_x(math.pi/2) * Transformation.scaling(10, 0.01, 10)
-  right_wall.material = left_wall.material
-    
-  body = Sphere()
-  body.transform = Transformation.translation(-0.5, 0.5, 0.5) * Transformation.scaling(0.5, 0.5, 0.5)
-  body.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  head = Sphere()
-  head.transform = Transformation.translation(-0.5, 1.2, 0.5) * Transformation.scaling(0.3, 0.3, 0.3)
-  head.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  right_paw = Sphere()
-  right_paw.transform = Transformation.translation(-0.2, 0.1, 0.5) * Transformation.scaling(0.2, 0.1, 0.4)
-  right_paw.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  left_paw = Sphere()
-  left_paw.transform = Transformation.translation(-0.8, 0.1, 0.5) * Transformation.scaling(0.2, 0.1, 0.4)
-  left_paw.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  right_arm = Sphere()
-  right_arm.transform = Transformation.translation(-0.3, 0.75, 0.3) * Transformation.scaling(0.2, 0.1, 0.4)
-  right_arm.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  left_arm = Sphere()
-  left_arm.transform = Transformation.translation(-0.7, 0.75, 0.3) * Transformation.scaling(0.2, 0.1, 0.4)
-  left_arm.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  right_ear = Sphere()
-  right_ear.transform = Transformation.translation(0, 1.4, 0.5) * Transformation.rotation_z((math.pi *3) / 2) * Transformation.scaling(0.1, 0.4, 0.1)
-  right_ear.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  left_ear = Sphere()
-  left_ear.transform = Transformation.translation(-0.8, 1.6, 0.5) * Transformation.rotation_z(math.pi / 4) * Transformation.scaling(0.1, 0.4, 0.1)
-  left_ear.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  tail_base = Sphere()
-  tail_base.transform = Transformation.translation(0, 0.5, 0.8) * Transformation.scaling(0.4, 0.1, 0.01)
-  tail_base.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  tail_body = Sphere()
-  tail_body.transform = Transformation.translation(0.5, 0.9, 0.8) * Transformation.scaling(0.12, 0.4, 0.01) * Transformation.shearing(1, 0, 0, 0, 0, 0)
-  tail_body.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  tail_tip = Sphere()
-  tail_tip.transform = Transformation.translation(0.86, 1.3, 0.8) * Transformation.scaling(0.4, 0.2, 0.01)
-  tail_tip.material = Material(Color(1, 0.902, 0.176), 0.3, 0.6, 0, 50)
-
-  left_eye = Sphere()
-  left_eye.transform = Transformation.translation(-0.39, 1.4, -1.1) * Transformation.scaling(0.025, 0.025, 0.01)
-  left_eye.material = Material(Color.black(), 0, 0, 1, 200)
-
-  right_eye = Sphere()
-  right_eye.transform = Transformation.translation(-0.3, 1.4, -1.1) * Transformation.scaling(0.025, 0.025, 0.001)
-  right_eye.material = Material(Color.black(), 0, 0, 1, 200)
-
-  left_cheek = Sphere()
-  left_cheek.transform = Transformation.translation(-0.45, 1.3, -1.0) * Transformation.scaling(0.025, 0.025, 0.01)
-  left_cheek.material = Material(Color(0.91, 0.16, 0.16), 0.3, 0.6, 0, 50)
-
-  right_cheek = Sphere()
-  right_cheek.transform = Transformation.translation(-0.25, 1.3, -1.0) * Transformation.scaling(0.025, 0.025, 0.001)
-  right_cheek.material = Material(Color(0.91, 0.16, 0.16), 0.3, 0.6, 0, 50)
-
-  pokeball = Sphere()
-  pokeball.transform = Transformation.translation(1, 2, 1) * Transformation.scaling(1, 1, 1)
-  pokeball.material.reflectiveness = 0.2
-  pokeball.material.transparency = 0
-  pokeball.material.refractive_index = 1.2
-  pokeball.material.shininess = 50
-  pokeball.material.ambient = 0.3
-  pokeball.material.diffuse = 0.6
-  pokeball.material.specular = 0.9
-  pokeball.material.pattern = Striped_pattern(Color.white(), Color(0.93, 0.08, 0.08))
-  pokeball.material.pattern.transform = Transformation.rotation_z(30)
-
-  pokeball_belt = Cylinder()
-  pokeball_belt.transform = Transformation.translation(1, 2, 1) * Transformation.rotation_z(15) * Transformation.scaling(0.4, 0.05, 1)
-  pokeball_belt.material = Material(Color(0.13, 0.13, 0.14), 0.3, 0.6, 0, 50)
-
-  pokeball_back_button = Sphere()
-  pokeball_back_button.transform = Transformation.translation(1, 1, 0) * Transformation.scaling(0.2, 0.2, 0.05)
-  pokeball_back_button.material = Material(Color(0.13, 0.13, 0.14), 0.3, 0.6, 0, 50)
-
-  pokeball_button = Sphere()
-  pokeball_button.transform = Transformation.translation(1, 1, 0.2) * Transformation.scaling(0.1, 0.1, 0.05)
-  pokeball_button.material = Material(Color.white(), 0.3, 0.6, 0, 50)
-    
-  world.objects.append(floor)
-  world.objects.append(left_wall) 
-  world.objects.append(right_wall)
-  world.objects.append(pokeball)
-  world.objects.append(pokeball_belt)
-  world.objects.append(pokeball_back_button)
-  world.objects.append(pokeball_button)
-  world.objects.append(body)
-  world.objects.append(head)
-  world.objects.append(right_paw)
-  world.objects.append(left_paw)
-  world.objects.append(right_arm)
-  world.objects.append(left_arm)
-  world.objects.append(right_ear)
-  world.objects.append(left_ear)
-  world.objects.append(tail_base)
-  world.objects.append(tail_body)
-  world.objects.append(tail_tip)
-  world.objects.append(left_eye)
-  world.objects.append(right_eye)
-  world.objects.append(left_cheek)
-  world.objects.append(right_cheek)
-
-  camera = Camera(300, 150, math.pi/3)
-  camera.transformation_matrix = Transformation.view_transform(Tuple.point(0, 1.5, -5),
-    Tuple.point(0, 1, 0),
-    Tuple.vector(0, 1, 0))
-
-  canvas = camera.render_parallel(world)
-  canvas.canvas_to_ppm("pikachu5.ppm")  
-
 if __name__ == "__main__":
-  pikachu2()
+  light_test()
