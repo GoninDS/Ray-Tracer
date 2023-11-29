@@ -223,7 +223,7 @@ def transparent_sphere():
                             Color(1, 1, 1))
 
   shape = Sphere()
-  shape.material = Material(Color(0.8, 0.8, 0.8))
+  shape.material = Material(Color(1, 1, 1))
   shape.material.reflectiveness = 0.8
   shape.material.transparency = 0.5
   shape.material.refractive_index = 1.0
@@ -250,7 +250,7 @@ def transparent_sphere():
   world.objects.append(plane)
 
   canvas = camera.render_parallel(world)
-  canvas.canvas_to_ppm("transparent_sphere_4.ppm")
+  canvas.canvas_to_ppm("transparent_sphere_5.ppm")
 
 def reflective_floor_test():
   world = World()
