@@ -8,15 +8,12 @@ from ray_tracer.spheres import Sphere
 from ray_tracer.materials import Material
 from ray_tracer.transformations import Transformation
 from ray_tracer.cameras import Camera
-
 from ray_tracer.checkers_patterns import Checkers_pattern
 from ray_tracer.cubes import Cube
-
 from ray_tracer.planes import Plane
-
 from ray_tracer.striped_patterns import Striped_pattern
-
 from ray_tracer.ring_patterns import Ring_pattern
+from ray_tracer.cylinders import Cylinder
 
 import math
 
@@ -220,30 +217,44 @@ def space():
   canvas = camera.render_parallel(world)
   canvas.canvas_to_ppm("space_big22.ppm")  
 
-def metal_test():
+def transparent_sphere():
   world = World()
-
   world.light = Light.point_light(Tuple.point(-10, 100, -10),
                             Color(1, 1, 1))
 
-  sphere = Sphere()
-  sphere.material.color = Color(0.1333,  0.5451, 0.1333 )
-  sphere.material.ambient = 0.43301
-  sphere.material.diffuse = 0.69282
-  sphere.material.specular = 1
-  sphere.material.shininess = 10
+  shape = Sphere()
+  shape.material = Material(Color(0.8, 0.8, 0.8))
+  shape.material.reflectiveness = 0.8
+  shape.material.transparency = 0.5
+  shape.material.refractive_index = 1.0
+  shape.material.shininess = 200
+  shape.material.diffuse = 0.1
+  shape.material.specular = 0.9
+  shape.transform = Transformation.translation(0, 1, 0)
 
-  camera = Camera(300, 450, math.pi/3)
+  second_shape = Sphere()
+  second_shape.material = Material(Color(0, 0, 1))
+  second_shape.transform = Transformation.translation(0, 1, 15)
+
+  plane = Plane()
+  plane.material.specular = 0
+  plane.material.pattern = Checkers_pattern(Color(0.35, 0.35, 0.35), Color(0.65, 0.65, 0.65))
+  
+  camera = Camera(300, 300, math.pi/3)
   camera.transformation_matrix =  Transformation.view_transform(Tuple.point(0, 1, -5),
   Tuple.point(0, 1, 0),
   Tuple.vector(0, 1, 0))
+  
+  world.objects.append(shape)
+  world.objects.append(second_shape)
+  world.objects.append(plane)
 
   canvas = camera.render_parallel(world)
-  canvas.canvas_to_ppm("hm2.ppm")
+  canvas.canvas_to_ppm("transparent_sphere_4.ppm")
 
 def reflective_floor_test():
   world = World()
-  world.light = Light.point_light(Tuple.point(-4.9, 4.9, -1),  Color(1, 1, 1))
+  world.light = Light.point_light(Tuple.point(-4.9, 4.9, -1), Color(1, 1, 1))
 
   plane = Plane()
   plane.material.reflectiveness = 0.4
@@ -277,4 +288,4 @@ def reflective_floor_test():
   canvas.canvas_to_ppm("reflective_floor_10.ppm")
 
 if __name__ == "__main__":
-  reflective_floor_test()
+  transparent_sphere()
