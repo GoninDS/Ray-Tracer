@@ -253,16 +253,17 @@ def reflective_floor_test():
 
   first_sphere = Sphere()
   first_sphere.material.color = Color(0, 0, 1)
+  first_sphere.transform = Transformation.translation(0, 0, 5)
 
   second_sphere = Sphere()
   second_sphere.material.color = Color(1, 0, 0)
-  second_sphere.transform = Transformation.translation(2.5, 0 , 0)
+  second_sphere.transform = Transformation.translation(2.5, 0 , 5)
 
   third_sphere = Sphere()
-  second_sphere.material.color = Color(0, 1, 0)
-  second_sphere.transform = Transformation.translation(-2.5, 0 , 0)
+  third_sphere.material.color = Color(0, 1, 0)
+  third_sphere.transform = Transformation.translation(-2.5, 0 , 5)
 
-  camera = Camera(300, 450, math.pi/3)
+  camera = Camera(1500, 1000, math.pi/3)
   camera.transformation_matrix =  Transformation.view_transform(Tuple.point(0, 1, -5),
   Tuple.point(0, 1, 0),
   Tuple.vector(0, 1, 0))
@@ -270,6 +271,7 @@ def reflective_floor_test():
   world.objects.append(plane)
   world.objects.append(first_sphere)
   world.objects.append(second_sphere)
+  world.objects.append(third_sphere)
 
   canvas = camera.render_parallel(world)
   canvas.canvas_to_ppm("reflective_floor_10.ppm")
