@@ -252,6 +252,62 @@ def transparent_sphere():
   canvas = camera.render_parallel(world)
   canvas.canvas_to_ppm("transparent_sphere_5.ppm")
 
+def reflective_sphere():
+  world = World()
+  world.light = Light.point_light(Tuple.point(-10, 100, -10),
+                            Color(1, 1, 1))
+  
+  shape = Sphere()
+  shape.material = Material(Color(0.8, 0.8, 0.8))
+  shape.material.reflectiveness = 0.8
+  shape.material.transparency = 0.0
+  shape.material.refractive_index = 1.0
+  shape.material.shininess = 200
+  shape.material.diffuse = 0.1
+  shape.material.specular = 0.9
+  shape.transform = Transformation.translation(0, 1, 0)
+
+  plane = Plane()
+  plane.material.specular = 0
+  plane.material.pattern = Checkers_pattern(Color(0.35, 0.35, 0.35), Color(0.65, 0.65, 0.65))
+
+  second_shape = Sphere()
+  second_shape.material = Material(Color(0, 0, 1))
+  second_shape.transform = Transformation.translation(0, 1, -15)
+
+  third_shape = Sphere()
+  third_shape.material = Material(Color(1, 0, 0))
+  third_shape.transform = Transformation.translation(-5, 1, -5)
+
+  fourth_shape = Sphere()
+  fourth_shape.material = Material(Color(0, 1, 0))
+  fourth_shape.transform = Transformation.translation(0, 5, -9)
+
+  fifth_shape = Sphere()
+  fifth_shape.material = Material(Color(0.38, 0.871, 0.851))
+  fifth_shape.transform = Transformation.translation(-4, 5, -9)
+
+  sixth_shape = Sphere()
+  sixth_shape.material = Material(Color(0.541, 0.384, 0.871))
+  sixth_shape.transform = Transformation.translation(8, 1, 0)
+
+  camera = Camera(1000, 1000, math.pi/3)
+  camera.transformation_matrix =  Transformation.view_transform(Tuple.point(0, 1, -5),
+  Tuple.point(0, 1, 0),
+  Tuple.vector(0, 1, 0))
+  
+  world.objects.append(shape)
+  world.objects.append(second_shape)
+  world.objects.append(third_shape)
+  world.objects.append(fourth_shape)
+  world.objects.append(fifth_shape)
+  world.objects.append(sixth_shape)
+  world.objects.append(plane)
+
+  canvas = camera.render_parallel(world)
+  canvas.canvas_to_ppm("reflective_sphere.ppm")
+
+
 def reflective_floor_test():
   world = World()
   world.light = Light.point_light(Tuple.point(-4.9, 4.9, -1), Color(1, 1, 1))
@@ -288,4 +344,4 @@ def reflective_floor_test():
   canvas.canvas_to_ppm("reflective_floor_10.ppm")
 
 if __name__ == "__main__":
-  transparent_sphere()
+  reflective_sphere()
