@@ -8,6 +8,16 @@ from ray_tracer.spheres import Sphere
 from ray_tracer.materials import Material
 from ray_tracer.transformations import Transformation
 from ray_tracer.cameras import Camera
+
+from ray_tracer.checkers_patterns import Checkers_pattern
+from ray_tracer.cubes import Cube
+
+from ray_tracer.planes import Plane
+
+from ray_tracer.striped_patterns import Striped_pattern
+
+from ray_tracer.ring_patterns import Ring_pattern
+
 import math
 
 
@@ -180,9 +190,9 @@ def light_test():
   canvas = camera.render_parallel(world)
   canvas.canvas_to_ppm("purple_light_test.ppm")
 
-def space():  
+def space():
   world = World()
-    
+
   world.light = Light.point_light(Tuple.point(-100, 100, -100),
                             Color(1, 1, 1))
     
@@ -210,5 +220,59 @@ def space():
   canvas = camera.render_parallel(world)
   canvas.canvas_to_ppm("space_big22.ppm")  
 
+def metal_test():
+  world = World()
+
+  world.light = Light.point_light(Tuple.point(-10, 100, -10),
+                            Color(1, 1, 1))
+
+  sphere = Sphere()
+  sphere.material.color = Color(0.1333,  0.5451, 0.1333 )
+  sphere.material.ambient = 0.43301
+  sphere.material.diffuse = 0.69282
+  sphere.material.specular = 1
+  sphere.material.shininess = 10
+
+  camera = Camera(300, 450, math.pi/3)
+  camera.transformation_matrix =  Transformation.view_transform(Tuple.point(0, 1, -5),
+  Tuple.point(0, 1, 0),
+  Tuple.vector(0, 1, 0))
+
+  canvas = camera.render_parallel(world)
+  canvas.canvas_to_ppm("hm2.ppm")
+
+def reflective_floor_test():
+  world = World()
+  world.light = Light.point_light(Tuple.point(-4.9, 4.9, -1),  Color(1, 1, 1))
+
+  plane = Plane()
+  plane.material.reflectiveness = 0.4
+  plane.material.specular = 0
+  plane.material.pattern = Checkers_pattern(Color(0.35, 0.35, 0.35), Color(0.65, 0.65, 0.65))
+  plane.material.pattern.transform = Transformation.rotation_y(90)
+
+  first_sphere = Sphere()
+  first_sphere.material.color = Color(0, 0, 1)
+
+  second_sphere = Sphere()
+  second_sphere.material.color = Color(1, 0, 0)
+  second_sphere.transform = Transformation.translation(2.5, 0 , 0)
+
+  third_sphere = Sphere()
+  second_sphere.material.color = Color(0, 1, 0)
+  second_sphere.transform = Transformation.translation(-2.5, 0 , 0)
+
+  camera = Camera(300, 450, math.pi/3)
+  camera.transformation_matrix =  Transformation.view_transform(Tuple.point(0, 1, -5),
+  Tuple.point(0, 1, 0),
+  Tuple.vector(0, 1, 0))
+
+  world.objects.append(plane)
+  world.objects.append(first_sphere)
+  world.objects.append(second_sphere)
+
+  canvas = camera.render_parallel(world)
+  canvas.canvas_to_ppm("reflective_floor_10.ppm")
+
 if __name__ == "__main__":
-  light_test()
+  reflective_floor_test()
